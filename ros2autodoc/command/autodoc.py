@@ -2,7 +2,9 @@ from ros2cli.command import add_subparsers_on_demand
 from ros2cli.command import CommandExtension
 
 class AutodocCommand(CommandExtension):
-    """Various service related sub-commands."""
+    """
+    Various auotdoc related subcommands.
+    """
 
     def add_arguments(self, parser, cli_name):
         self._subparser = parser

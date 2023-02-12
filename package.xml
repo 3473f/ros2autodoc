@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ros2autodoc</name>
+  <version>0.0.0</version>
+  <description>
+    The ROS2 autodoc project provides a CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.
+  </description>
+  <maintainer email="mohamed.abdelaziz@zal.aero">Mohamed Abdelaziz</maintainer>
+  <license>Apache License 2.0</license>
+
+  <depend>ros2cli</depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

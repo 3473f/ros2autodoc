@@ -3,6 +3,7 @@ from ros2cli.verb import VerbExtension
 
 from ros2autodoc.api import check_for_node
 from ros2autodoc.api import check_for_package
+from ros2autodoc.api import document_node
 from ros2autodoc.api import get_nodes
 
 from os.path import exists, abspath, curdir
@@ -47,3 +48,4 @@ class GenerateVerb(VerbExtension):
                     continue
                 # Document the node
                 print(node_name)
+                document_node(node, args.package_name, node_name, args.output_dir)

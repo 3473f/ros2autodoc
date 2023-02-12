@@ -1,6 +1,8 @@
 import os
 import sys
 
+from ros2autodoc.api.doc_writer import DocWriter
+
 # ROS2 node API
 from ros2node.api import get_action_server_info
 from ros2node.api import get_node_names
@@ -59,6 +61,9 @@ def get_nodes(package_name):
     for path in sorted(paths):
         nodes.append(os.path.basename(path))
     return nodes
+
+def document_node(node, package_name, node_name, path):
+    writer = DocWriter(package_name, node_name, path)
 
 # def _get_parameters():
 #     pass

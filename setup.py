@@ -27,6 +27,9 @@ setup(
   entry_points={
         'ros2cli.command': [
             'autodoc = ros2autodoc.command.autodoc:AutodocCommand',
-        ]
+        ],
+        'ros2autodoc.verb' : [
+            'generate =  ros2autodoc.verb.generate:GenerateVerb',
+        ],
     }
 )

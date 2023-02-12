@@ -10,9 +10,8 @@ setup(
   install_requires=['ros2cli'],
   zip_safe=True,
   author='Mohamed Abdelaziz',
-  author_email='mohamed.abdelaziz@zal.aero',
-  #url='https://github.com/artivis/ros2hellocli',
-  #download_url='https://github.com/artivis/ros2hellocli/releases',
+  author_email='mohamed.abdelaziz@tutanota.de',
+  url='https://github.com/3473f/ros2autodoc',
   keywords=[],
   classifiers=[
       'Environment :: Console',

@@ -5,7 +5,7 @@
   <description>
     The ROS2 autodoc project provides a CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.
   </description>
-  <maintainer email="mohamed.abdelaziz@zal.aero">Mohamed Abdelaziz</maintainer>
+  <maintainer email="mohamed.abdelaziz@tutanota.de">Mohamed Abdelaziz</maintainer>
   <license>Apache License 2.0</license>
 
   <depend>ros2cli</depend>

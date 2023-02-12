@@ -1,0 +1,32 @@
+name: Humble Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  humble-build:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+    container:
+      image: ubuntu:jammy
+    env:
+      ROS_DISTRO: humble
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ env.ROS_DISTRO }}
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with: 
+          target-ros2-distro: ${{ env.ROS_DISTRO }}
+          package-name: 
+            ros2autodoc
+          skip-tests: true
+          vcs-repo-file-url: https://raw.githubusercontent.com/ros2/ros2/humble/ros2.repos
+      - uses: actions/upload-artifact@v1
+        with:
+          name: colcon-logs
+          path: ros_ws/log

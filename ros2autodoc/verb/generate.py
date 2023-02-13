@@ -34,11 +34,11 @@ class GenerateVerb(VerbExtension):
             return "Package '{}' could not be found.".format(args.package_name)
 
         if args.nodes:
-            if not set(args.nodes).issubset(get_nodes(args.package_name)):
-                return "Make sure that all nodes exist in the package."
+            #if not set(args.nodes).issubset(get_nodes(args.package_name)):
+            #    return "Make sure that all nodes exist in the package."
             nodes = args.nodes
         else:
-            nodes = get_nodes(args.package_name)
+            nodes = get_nodes(args.package_name)  # executable name has to match node name
         
         with NodeStrategy(args) as node:
             for node_name in nodes:
@@ -46,6 +46,5 @@ class GenerateVerb(VerbExtension):
                     print("Node '{}' is not running"
                             " and will be ignored.".format(node_name))
                     continue
-                # Document the node
-                print(node_name)
+                # document the node
                 document_node(node, args.package_name, node_name, args.output_dir)

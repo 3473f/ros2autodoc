@@ -16,17 +16,17 @@ class GenerateVerb(VerbExtension):
     def add_arguments(self, parser, cli_name):
         parser.add_argument(
             'package_name',
-            help='Name of the package.')
+            help='name of the package to be documented.')
         parser.add_argument(
             'nodes',
             metavar='node',
             nargs='*',
-            help='Name of the nodes to be documented. If not specified, '
-                 'all running nodes from the package will be documented')
+            help='name of the nodes to be documented. If not specified, '
+                 'all running nodes from the package will be documented.')
         parser.add_argument(
             '--output-dir',
             default=abspath(curdir),
-            help='The directory where documentation should be written.'
+            help='the directory where documentation should be written.'
         )
 
     def main(self, *, args):

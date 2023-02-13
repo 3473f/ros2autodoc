@@ -21,7 +21,7 @@ setup(
   ],
   description='CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.',
   long_description="""The project provides a CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.""",
-  license='Apache License, Version 2.0',
+  license='BSD 3-Clause',
   tests_require=['pytest'],
   entry_points={
         'ros2cli.command': [

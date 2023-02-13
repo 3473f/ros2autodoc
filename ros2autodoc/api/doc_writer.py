@@ -21,6 +21,7 @@ class DocWriter():
 
         if os.path.exists(self.file):
             with open(self.file, "a") as f:
+                f.write('##\n\n')
                 f.write('### ' + node_name + '\n\n')
         else:
             with open(self.file, "w") as f:

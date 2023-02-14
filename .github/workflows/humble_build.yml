@@ -16,10 +16,10 @@ jobs:
     env:
       ROS_DISTRO: humble
     steps:
-      - uses: ros-tooling/setup-ros@v0.3
+      - uses: ros-tooling/setup-ros@v0.5
         with:
           required-ros-distributions: ${{ env.ROS_DISTRO }}
-      - uses: ros-tooling/action-ros-ci@v0.2
+      - uses: ros-tooling/action-ros-ci@v0.2.7
         with: 
           target-ros2-distro: ${{ env.ROS_DISTRO }}
           package-name: 
@@ -30,3 +30,5 @@ jobs:
         with:
           name: colcon-logs
           path: ros_ws/log
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3

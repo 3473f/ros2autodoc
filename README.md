@@ -67,8 +67,3 @@ ros2 autodoc generate turtlesim turtlesim draw_square
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.
-
-## TODO
-
-- [ ] Handle empty "Parameters" and "Services" output
-- [ ] Handle executable and node name mismatch

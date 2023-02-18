@@ -63,23 +63,24 @@ def document_node(node, package_name, node_name, path):
     writer = DocWriter(package_name, node_name, path)
     param_names, params = _get_parameters(node, node_name)
     if len(params) > 0:
-        writer.write_parameters(param_names, params)
+        writer.get_parameters(param_names, params)
     subscribers = get_subscriber_info(
         node=node, remote_node_name=node_name, include_hidden=False)
     if len(subscribers) > 0:
-        writer.write_subscribers(subscribers)
+        writer.get_subscribers(subscribers)
     publishers = get_publisher_info(
         node=node, remote_node_name=node_name, include_hidden=False)
     if len(publishers) > 0:
-        writer.write_publishers(publishers)
+        writer.get_publishers(publishers)
     service_servers = get_service_server_info(
-        node=node, remote_node_name=node_name, include_hidden=True)
+        node=node, remote_node_name=node_name, include_hidden=False)
     if len(service_servers) > 0:
-        writer.write_service_servers(service_servers)
+        writer.get_service_servers(service_servers)
     actions_servers = get_action_server_info(
-        node=node, remote_node_name=node_name, include_hidden=True)
+        node=node, remote_node_name=node_name, include_hidden=False)
     if len(actions_servers) > 0:
-        writer.write_action_servers(actions_servers)
+        writer.get_action_servers(actions_servers)
+    writer.write()
 
 
 def _get_parameters(node, node_name):

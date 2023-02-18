@@ -5,7 +5,7 @@ package_name = 'ros2autodoc'
 
 setup(
   name=package_name,
-  version='0.0.0',
+  version='0.0.1',
   packages=find_packages(exclude=['test']),
   install_requires=['ros2cli'],
   zip_safe=True,
@@ -16,7 +16,7 @@ setup(
   classifiers=[
       'Environment :: Console',
       'Intended Audience :: Developers',
-      'License :: OSI Approved :: Apache Software License',
+      'License :: OSI Approved :: The 3-Clause BSD License',
       'Programming Language :: Python',
   ],
   description='CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.',

@@ -1,6 +1,7 @@
 # ros2autodoc
 
 ![humble_build](https://github.com/3473f/ros2autodoc/actions/workflows/humble_build.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b865f4364ab1cc6a5ae3/maintainability)](https://codeclimate.com/github/3473f/ros2autodoc/maintainability)
 
 ## Overview
 

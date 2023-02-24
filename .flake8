@@ -1,0 +1,4 @@
+[flake8]
+max-line-length = 88
+# E203: violates PEP8 <https://github.com/psf/black/issues/315>
+extend-ignore = E203

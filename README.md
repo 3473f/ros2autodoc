@@ -12,27 +12,28 @@ The ros2autodoc package provides a ROS2 command line interface tool to automatic
 1. Install ROS Galactic or Humble.
 2. Make sure that `colcon` is installed:
 
-    ```
-    sudo apt install python3-colcon-common-extensions
-    ```
+```shell
+sudo apt install python3-colcon-common-extensions
+```
 
 3. Clone this repo into your workspace:
 
-    ```
-    mkdir -p ~/ros2_ws/src
-    cd ~/ros2_ws
-    git clone https://github.com/3473f/ros2autodoc ./src
-    ```
+```shell
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+git clone https://github.com/3473f/ros2autodoc ./src
+```
 
 4. Build the workspace:
 
-    ```
-    colcon build
-    source install/setup.bash
-    ```
+```shell
+colcon build
+source install/setup.bash
+```
 
 ## Usage
-```
+
+```shell
 $ ros2 autodoc generate --help
 
 usage: ros2 autodoc generate [-h] [--output-dir OUTPUT_DIR] package_name [node ...]
@@ -55,15 +56,20 @@ options:
 We are going to demonstrate the usage of this package using the turtlesim package included in ROS2.
 
 First, run the turtlesim node:
-```
+
+```shell
 ros2 run turtlesim turtlesim_node
 ```
+
 Next, run the draw_square node in another terminal:
-```
+
+```shell
 ros2 run turtlesim draw_square
 ```
+
 Finally, generate the documentation for these two nodes by running this command in a new terminal:
-```
+
+```shell
 ros2 autodoc generate turtlesim turtlesim draw_square
 ```
 

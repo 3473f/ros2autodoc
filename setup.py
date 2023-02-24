@@ -1,34 +1,33 @@
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import find_packages, setup
 
-package_name = 'ros2autodoc'
+PACKAGE_NAME = "ros2autodoc"
 
 setup(
-  name=package_name,
-  version='0.0.1',
-  packages=find_packages(exclude=['test']),
-  install_requires=['ros2cli'],
-  zip_safe=True,
-  author='Mohamed Abdelaziz',
-  author_email='mohamed.abdelaziz@tutanota.de',
-  url='https://github.com/3473f/ros2autodoc',
-  keywords=[],
-  classifiers=[
-      'Environment :: Console',
-      'Intended Audience :: Developers',
-      'License :: OSI Approved :: The 3-Clause BSD License',
-      'Programming Language :: Python',
-  ],
-  description='CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.',
-  long_description="""The project provides a CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.""",
-  license='BSD 3-Clause',
-  tests_require=['pytest'],
-  entry_points={
-        'ros2cli.command': [
-            'autodoc = ros2autodoc.command.autodoc:AutodocCommand',
+    name=PACKAGE_NAME,
+    version="0.0.1",
+    packages=find_packages(exclude=["test"]),
+    install_requires=["ros2cli"],
+    zip_safe=True,
+    author="Mohamed Abdelaziz",
+    author_email="mohamed.abdelaziz@tutanota.de",
+    url="https://github.com/3473f/ros2autodoc",
+    keywords=[],
+    classifiers=[
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: The 3-Clause BSD License",
+        "Programming Language :: Python",
+    ],
+    description="CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.",  # noqa: E501
+    long_description="""The project provides a CLI command to automatically generate documentation for ROS2 nodes in markdown syntax.""",  # noqa: E501
+    license="BSD 3-Clause",
+    tests_require=["pytest"],
+    entry_points={
+        "ros2cli.command": [
+            "autodoc = ros2autodoc.command.autodoc:AutodocCommand",
         ],
-        'ros2autodoc.verb' : [
-            'generate =  ros2autodoc.verb.generate:GenerateVerb',
+        "ros2autodoc.verb": [
+            "generate =  ros2autodoc.verb.generate:GenerateVerb",
         ],
-    }
+    },
 )

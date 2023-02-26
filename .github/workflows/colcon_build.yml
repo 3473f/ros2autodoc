@@ -16,7 +16,7 @@ jobs:
         ros2-version: [foxy, humble]     # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>
     steps:
     - uses: actions/checkout@v3
-    - uses: ros-tooling/setup-ros@v0.5
+    - uses: ros-tooling/setup-ros@v0.6
       with:
         required-ros-distributions: ${{ matrix.ros2_version }}
     - uses: ros-tooling/action-ros-ci@v0.2

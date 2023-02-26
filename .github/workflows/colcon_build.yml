@@ -14,9 +14,9 @@ jobs:
       matrix: # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>
         include:
           - ros2-version: foxy
-            os: ubuntu:20.04
+            os: ubuntu-20.04
           - ros2-version: humble
-            os: ubuntu:22.04
+            os: ubuntu-22.04
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3

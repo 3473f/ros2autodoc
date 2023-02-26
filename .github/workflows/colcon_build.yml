@@ -18,10 +18,10 @@ jobs:
     - uses: actions/checkout@v3
     - uses: ros-tooling/setup-ros@v0.6
       with:
-        required-ros-distributions: ${{ matrix.ros2_version }}
+        required-ros-distributions: ${{ matrix.ros2-version }}
     - uses: ros-tooling/action-ros-ci@v0.2
       with:
-        target-ros2-distro: ${{ matrix.ros2_version }}
+        target-ros2-distro: ${{ matrix.ros2-version }}
         package-name: ros2autodoc
         skip-tests: true
     - uses: actions/upload-artifact@v3

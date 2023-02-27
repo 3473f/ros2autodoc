@@ -1,15 +1,17 @@
 # ros2autodoc
 
-![humble_build](https://github.com/3473f/ros2autodoc/actions/workflows/humble_build.yml/badge.svg)
+[![Colcon Build](https://github.com/3473f/ros2autodoc/actions/workflows/colcon_build.yml/badge.svg)](https://github.com/3473f/ros2autodoc/actions/workflows/colcon_build.yml)
+[![Ament Lint](https://github.com/3473f/ros2autodoc/actions/workflows/ament_lint.yml/badge.svg)](https://github.com/3473f/ros2autodoc/actions/workflows/ament_lint.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b865f4364ab1cc6a5ae3/maintainability)](https://codeclimate.com/github/3473f/ros2autodoc/maintainability)
 
 ## Overview
 
-The ros2autodoc package provides a ROS2 command line interface tool to automatically generate documentation for ROS2 nodes. The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node.
+The `ros2autodoc` package provides a ROS2 command line interface tool to automatically generate documentation for ROS2 nodes.
+The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node.
 
 ## Installation
 
-1. Install ROS Galactic or Humble.
+1. Install ROS a recent ROS2 version (currently supported: `Foxy Fitzroy` and `Humble Hawksbill`).
 2. Make sure that `colcon` is installed:
 
 ```shell
@@ -70,7 +72,7 @@ ros2 run turtlesim draw_square
 Finally, generate the documentation for these two nodes by running this command in a new terminal:
 
 ```shell
-ros2 autodoc generate turtlesim turtlesim draw_square
+ros2autodoc generate turtlesim turtlesim draw_square
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.

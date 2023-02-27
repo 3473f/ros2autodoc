@@ -9,7 +9,6 @@ on:
 
 env: # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>
   ROS_DISTRO: humble
-  UBUNTU_VERSION: 22.04
 
 jobs:
   colcon-build:
@@ -17,9 +16,9 @@ jobs:
       fail-fast: false
       matrix:
         linter: [copyright, flake8, mypy, pep257, pep8, xmllint] # A list of all available linters can be found at <https://index.ros.org/r/ament_lint/github-ament-ament_lint/>
-    runs-on: ubuntu-${UBUNTU_VERSION}
+    runs-on: ubuntu-22.04
     container:
-      image: ubuntu:${UBUNTU_VERSION}
+      image: ubuntu:22.04
     steps:
     - uses: actions/checkout@v3
     - uses: ros-tooling/setup-ros@v0.6

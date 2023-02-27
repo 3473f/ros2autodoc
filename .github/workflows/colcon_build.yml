@@ -23,7 +23,7 @@ jobs:
     - uses: ros-tooling/setup-ros@v0.6
       with:
         required-ros-distributions: ${{ matrix.ros2-version }}
-    - uses: ros-tooling/action-ros-ci@v0.2
+    - uses: ros-tooling/action-ros-ci@v0.3
       with:
         target-ros2-distro: ${{ matrix.ros2-version }}
         package-name: ros2autodoc

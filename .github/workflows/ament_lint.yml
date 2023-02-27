@@ -17,14 +17,14 @@ jobs:
       fail-fast: false
       matrix:
         linter: [copyright, flake8, mypy, pep257, pep8, xmllint] # A list of all available linters can be found at <https://index.ros.org/r/ament_lint/github-ament-ament_lint/>
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ubuntu-${UBUNTU_VERSION}
     container:
-      image: ubuntu:${{ env.UBUNTU_VERSION }}
+      image: ubuntu:${UBUNTU_VERSION}
     steps:
     - uses: actions/checkout@v3
     - uses: ros-tooling/setup-ros@v0.6
       with:
-        required-ros-distributions: ${{ env.ROS_DISTRO }}
+        required-ros-distributions: ${ROS_DISTRO}
     - uses: ros-tooling/action-ros-lint@master
       with:
         linter: ${{ matrix.linter }}

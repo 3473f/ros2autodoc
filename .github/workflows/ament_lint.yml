@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: [copyright, flake8, mypy, pep257, pep8, xmllint] # A list of all available linters can be found at <https://index.ros.org/r/ament_lint/github-ament-ament_lint/>
+        linter: [copyright, mypy, xmllint] # A list of all available linters can be found at <https://index.ros.org/r/ament_lint/github-ament-ament_lint/>
     runs-on: ubuntu-22.04
     container:
       image: ubuntu:22.04

@@ -1,38 +1,41 @@
 # ros2autodoc
 
-![humble_build](https://github.com/3473f/ros2autodoc/actions/workflows/humble_build.yml/badge.svg)
+[![Colcon Build](https://github.com/3473f/ros2autodoc/actions/workflows/colcon_build.yml/badge.svg)](https://github.com/3473f/ros2autodoc/actions/workflows/colcon_build.yml)
+[![Ament Lint](https://github.com/3473f/ros2autodoc/actions/workflows/ament_lint.yml/badge.svg)](https://github.com/3473f/ros2autodoc/actions/workflows/ament_lint.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b865f4364ab1cc6a5ae3/maintainability)](https://codeclimate.com/github/3473f/ros2autodoc/maintainability)
 
 ## Overview
 
-The ros2autodoc package provides a ROS2 command line interface tool to automatically generate documentation for ROS2 nodes. The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node.
+The `ros2autodoc` package provides a ROS2 command line interface tool to automatically generate documentation for ROS2 nodes.
+The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node.
 
 ## Installation
 
-1. Install ROS Galactic or Humble.
+1. Install ROS a recent ROS2 version (currently supported: `Foxy Fitzroy` and `Humble Hawksbill`).
 2. Make sure that `colcon` is installed:
 
-    ```
-    sudo apt install python3-colcon-common-extensions
-    ```
+```shell
+sudo apt install python3-colcon-common-extensions
+```
 
 3. Clone this repo into your workspace:
 
-    ```
-    mkdir -p ~/ros2_ws/src
-    cd ~/ros2_ws
-    git clone https://github.com/3473f/ros2autodoc ./src
-    ```
+```shell
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+git clone https://github.com/3473f/ros2autodoc ./src
+```
 
 4. Build the workspace:
 
-    ```
-    colcon build
-    source install/setup.bash
-    ```
+```shell
+colcon build
+source install/setup.bash
+```
 
 ## Usage
-```
+
+```shell
 $ ros2 autodoc generate --help
 
 usage: ros2 autodoc generate [-h] [--output-dir OUTPUT_DIR] package_name [node ...]
@@ -55,16 +58,21 @@ options:
 We are going to demonstrate the usage of this package using the turtlesim package included in ROS2.
 
 First, run the turtlesim node:
-```
+
+```shell
 ros2 run turtlesim turtlesim_node
 ```
+
 Next, run the draw_square node in another terminal:
-```
+
+```shell
 ros2 run turtlesim draw_square
 ```
+
 Finally, generate the documentation for these two nodes by running this command in a new terminal:
-```
-ros2 autodoc generate turtlesim turtlesim draw_square
+
+```shell
+ros2autodoc generate turtlesim turtlesim draw_square
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.

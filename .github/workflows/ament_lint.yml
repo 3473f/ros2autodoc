@@ -1,0 +1,27 @@
+name: Ament Lint
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  colcon-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        linter: [copyright, mypy, xmllint] # A list of all available linters can be found at <https://index.ros.org/r/ament_lint/github-ament-ament_lint/>
+    runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:22.04
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ros-tooling/setup-ros@v0.6
+      with:
+        required-ros-distributions: humble  # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>
+    - uses: ros-tooling/action-ros-lint@master
+      with:
+        linter: ${{ matrix.linter }}
+        package-name: ros2autodoc

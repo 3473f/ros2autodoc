@@ -1,0 +1,34 @@
+name: Colcon Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  colcon-build:
+    strategy:
+      fail-fast: false
+      matrix: # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>
+        include:
+        - ros2-version: foxy
+          os: ubuntu-20.04
+        - ros2-version: humble
+          os: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ros-tooling/setup-ros@v0.6
+      with:
+        required-ros-distributions: ${{ matrix.ros2-version }}
+    - uses: ros-tooling/action-ros-ci@v0.2
+      with:
+        target-ros2-distro: ${{ matrix.ros2-version }}
+        package-name: ros2autodoc
+        skip-tests: true
+    - uses: actions/upload-artifact@v3
+      with:
+        name: colcon_build_logs
+        path: ros_ws/${{ matrix.ros2_version }}/${{ matrix.os }}/log

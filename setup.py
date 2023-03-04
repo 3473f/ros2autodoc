@@ -6,6 +6,11 @@ setup(
     name=PACKAGE_NAME,
     version="0.0.1",
     packages=find_packages(exclude=["test"]),
+    data_files=[
+        ('share/' + PACKAGE_NAME, ['package.xml']),
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + PACKAGE_NAME]),
+    ],
     install_requires=["ros2cli"],
     zip_safe=True,
     author="Mohamed Abdelaziz",

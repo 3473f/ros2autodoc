@@ -11,7 +11,7 @@ The tool outputs an initial documentation file detailing the interface (paramete
 
 ## Installation
 
-1. Install ROS a recent ROS2 version (currently supported: `Foxy Fitzroy` and `Humble Hawksbill`).
+1. Install a recent ROS2 version (currently supported: `Foxy Fitzroy` and `Humble Hawksbill`).
 2. Make sure that `colcon` is installed:
 
 ```shell

@@ -62,13 +62,13 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: v0.0.254
+  rev: v0.0.259
   hooks:
   - id: ruff
     name: Linting Python code (ruff)
     args: [--fix, --exit-non-zero-on-fix]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.7.0
+  rev: v2.8.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']

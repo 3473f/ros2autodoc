@@ -34,7 +34,7 @@ repos:
   - id: black
     name: Python formatting (black)
 - repo: https://github.com/PyCQA/docformatter
-  rev: v1.6.4
+  rev: v1.6.5
   hooks:
   - id: docformatter
     name: Python docstring formatting (docformatter)
@@ -45,7 +45,7 @@ repos:
     name: Sorting python imports
     args: [--profile, black]
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.3.2
+  rev: v3.4.0
   hooks:
   - id: pyupgrade
     name: Upgrade common mistakes
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: v0.0.263
+  rev: v0.0.265
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

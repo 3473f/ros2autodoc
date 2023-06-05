@@ -97,20 +97,21 @@ class DocWriter:
                 f.write("##\n\n")
                 f.write("### " + self.node_name + "\n\n")
         else:
-            with open(self.file, "w", encoding="utf-8") as f:
-                f.write(
-                    "# " + self.package_name + "\n\n"
-                    "## Overview\n\n"
-                    f"{TODO}"
-                    "## Installation\n\n"
-                    f"{TODO}"
-                    "## Usage\n\n"
-                    f"{TODO}"
-                    "## Config files\n\n"
-                    f"{TODO}"
-                    "## Nodes\n\n"
-                    "### " + self.node_name + "\n\n"
-                )
+            if self.package_name is not None:
+                with open(self.file, "w", encoding="utf-8") as f:
+                    f.write(
+                        "# " + self.package_name + "\n\n"
+                        "## Overview\n\n"
+                        f"{TODO}"
+                        "## Installation\n\n"
+                        f"{TODO}"
+                        "## Usage\n\n"
+                        f"{TODO}"
+                        "## Config files\n\n"
+                        f"{TODO}"
+                        "## Nodes\n\n"
+                        "### " + self.node_name + "\n\n"
+                    )
 
         with open(self.file, "a", encoding="utf-8") as f:
             if self.parameters:

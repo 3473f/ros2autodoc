@@ -43,7 +43,7 @@ class GenerateVerb(VerbExtension):
         parser.add_argument(
             "--package-name",
             help="name of the package to be documented. If not specified, "
-            "the package documentation will be left out."
+            "the package documentation will be left out.",
         )
         parser.add_argument(
             "nodes",

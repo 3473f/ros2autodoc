@@ -7,11 +7,11 @@
 ## Overview
 
 The `ros2autodoc` package provides a ROS2 command line interface tool to automatically generate documentation for ROS2 nodes.
-The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node.
+The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node. The package was tested with ROS2 Foxy, Humble and Iron.
 
 ## Installation
 
-1. Install a recent ROS2 version (currently supported: `Foxy Fitzroy` and `Humble Hawksbill`).
+1. Install a recent ROS2 version.
 2. Make sure that `colcon` is installed:
 
 ```shell
@@ -43,11 +43,12 @@ usage: ros2 autodoc generate [-h] [--output-dir OUTPUT_DIR] package_name [node .
 Automatically generate documentation for a ROS2 node
 
 positional arguments:
-  package_name          name of the package to be documented.
   node                  name of the nodes to be documented. If not specified, all running nodes from the package will be documented.
 
 options:
   -h, --help            show this help message and exit
+  --package-name PACKAGE_NAME
+                        name of the package to be documented. If not specified, the package documentation will be left out.
   --output-dir OUTPUT_DIR
                         the directory where documentation should be written.
 
@@ -72,7 +73,7 @@ ros2 run turtlesim draw_square
 Finally, generate the documentation for these two nodes by running this command in a new terminal:
 
 ```shell
-ros2autodoc generate turtlesim turtlesim draw_square
+ros2autodoc generate turtlesim draw_square --package-name turtlesim
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.

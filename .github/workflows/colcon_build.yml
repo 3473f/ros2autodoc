@@ -15,6 +15,7 @@ jobs:
         include:
         - ros2-version: foxy
           os: ubuntu-20.04
+          os: ubuntu-20.04
         - ros2-version: humble
           os: ubuntu-22.04
     runs-on: ${{ matrix.os }}

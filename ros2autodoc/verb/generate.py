@@ -41,7 +41,9 @@ class GenerateVerb(VerbExtension):
 
     def add_arguments(self, parser, cli_name):
         parser.add_argument(
-            "package_name", help="name of the package to be documented."
+            "--package-name",
+            help="name of the package to be documented. If not specified, "
+            "the package documentation will be left out."
         )
         parser.add_argument(
             "nodes",
@@ -57,17 +59,20 @@ class GenerateVerb(VerbExtension):
         )
 
     def main(self, *, args):
-        if not check_for_package(args.package_name):
-            return f"Package '{args.package_name}' could not be found."
-
-        if args.nodes:
-            # if not set(args.nodes).issubset(get_nodes(args.package_name)):
-            #    return "Make sure that all nodes exist in the package."
-            nodes = args.nodes
+        if args.package_name:
+            if not check_for_package(args.package_name):
+                return f"Package '{args.package_name}' could not be found."
+            if args.nodes:
+                # if not set(args.nodes).issubset(get_nodes(args.package_name)):
+                #    return "Make sure that all nodes exist in the package."
+                nodes = args.nodes
+            else:
+                nodes = get_nodes(
+                    args.package_name
+                )  # executable name has to match node name
         else:
-            nodes = get_nodes(
-                args.package_name
-            )  # executable name has to match node name
+            if args.nodes:
+                nodes = args.nodes
 
         with NodeStrategy(args) as node:
             for node_name in nodes:

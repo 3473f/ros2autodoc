@@ -86,8 +86,6 @@ TODO: description
 
 TODO: description
 
-------
-
 ### draw_square
 
 ### Subscribers

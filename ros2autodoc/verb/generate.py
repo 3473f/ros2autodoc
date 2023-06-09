@@ -33,7 +33,7 @@ from os.path import abspath, curdir
 from ros2cli.node.strategy import NodeStrategy
 from ros2cli.verb import VerbExtension
 
-from ros2autodoc.api import check_for_node, check_for_package, document_node, get_nodes
+from ros2autodoc.api import check_for_node, check_for_package, document_node
 
 
 class GenerateVerb(VerbExtension):
@@ -59,23 +59,11 @@ class GenerateVerb(VerbExtension):
         )
 
     def main(self, *, args):
-        if args.package_name:
-            if not check_for_package(args.package_name):
-                return f"Package '{args.package_name}' could not be found."
-            if args.nodes:
-                # if not set(args.nodes).issubset(get_nodes(args.package_name)):
-                #    return "Make sure that all nodes exist in the package."
-                nodes = args.nodes
-            else:
-                nodes = get_nodes(
-                    args.package_name
-                )  # executable name has to match node name
-        else:
-            if args.nodes:
-                nodes = args.nodes
+        if args.package_name and not check_for_package(args.package_name):
+            return f"Package '{args.package_name}' could not be found."
 
         with NodeStrategy(args) as node:
-            for node_name in nodes:
+            for node_name in args.nodes:
                 if not check_for_node(node, f"/{node_name}"):
                     print(f"Node '{node_name}' is not running and will be ignored.")
                     continue

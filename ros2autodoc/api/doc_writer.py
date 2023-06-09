@@ -94,7 +94,6 @@ class DocWriter:
     def write(self):
         if os.path.exists(self.file):
             with open(self.file, "a", encoding="utf-8") as f:
-                f.write("##\n\n")
                 f.write("### " + self.node_name + "\n\n")
         else:
             if self.package_name is not None:

@@ -73,7 +73,7 @@ ros2 run turtlesim draw_square
 Finally, generate the documentation for these two nodes by running this command in a new terminal:
 
 ```shell
-ros2autodoc generate turtlesim draw_square --package-name turtlesim
+ros2 autodoc generate turtlesim draw_square --package-name turtlesim
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.

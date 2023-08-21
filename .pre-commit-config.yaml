@@ -45,13 +45,13 @@ repos:
     name: Sorting python imports
     args: [--profile, black]
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.9.0
+  rev: v3.10.1
   hooks:
   - id: pyupgrade
     name: Upgrade common mistakes
     args: [--py38-plus]
 - repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
+  rev: 6.1.0
   hooks:
   - id: flake8
     name: Linting Python code (flake8)
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.0.280
+  rev: v0.0.284
   hooks:
   - id: ruff
     name: Linting Python code (ruff)
@@ -75,7 +75,7 @@ repos:
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.4.1
+  rev: v1.5.0
   hooks:
   - id: mypy
     name: Static typechecking (mypy)

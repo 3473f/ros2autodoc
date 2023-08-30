@@ -92,7 +92,7 @@ def get_nodes(package_name):
 def document_node(node, package_name, node_name, path):
     """Document the given node."""
     writer = DocWriter(package_name, node_name, path)
-    param_names, params = _get_parameters(node, node_name)
+    param_names, params, description = _get_parameters(node, node_name)
     if len(params) > 0:
         writer.get_parameters(param_names, params)
     subscribers = get_subscriber_info(
@@ -120,6 +120,7 @@ def document_node(node, package_name, node_name, path):
 
 def _get_parameters(node, node_name):
     name_to_type_map = {}
+    name_to_description_map = {}
     parameter_names = call_list_parameters(node=node, node_name=node_name)
     sorted_names = sorted(parameter_names)
     resp = call_describe_parameters(
@@ -127,4 +128,5 @@ def _get_parameters(node, node_name):
     )
     for descriptor in resp.descriptors:
         name_to_type_map[descriptor.name] = get_parameter_type_string(descriptor.type)
-    return sorted_names, name_to_type_map
+        name_to_description_map[descriptor.name] = descriptor.description
+    return sorted_names, name_to_type_map, name_to_description_map

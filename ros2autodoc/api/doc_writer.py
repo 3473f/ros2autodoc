@@ -61,11 +61,14 @@ class DocWriter:
         self.services = []
         self.actions = []
 
-    def get_parameters(self, param_names, params_map):
+    def get_parameters(self, param_names, params_map, desciption_map):
         for param in param_names:
             if param not in PARAMS_TO_IGNORE:
                 param_type = params_map[param]
-                self.parameters.append({"name": param, "type": param_type})
+                param_description = desciption_map[param]
+                self.parameters.append(
+                    {"name": param, "type": param_type, "description": param_description}
+                )
 
     def get_subscribers(self, subscribers):
         for sub in subscribers:
@@ -138,4 +141,8 @@ class DocWriter:
         _name = item["name"]
         _type = item["type"]
         file.write(f"- **`{_name}`** ({_type})\n\n")
-        file.write(f"{TODO}")
+        if "descripiton" in item:
+            _description = item["descripiton"] 
+            file.write(f"{_description}\n\n")
+        else:
+            file.write(f"{TODO}")

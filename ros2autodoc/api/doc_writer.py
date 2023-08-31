@@ -67,7 +67,11 @@ class DocWriter:
                 param_type = params_map[param]
                 param_description = desciption_map[param]
                 self.parameters.append(
-                    {"name": param, "type": param_type, "description": param_description}
+                    {
+                        "name": param,
+                        "type": param_type,
+                        "description": param_description,
+                    }
                 )
 
     def get_subscribers(self, subscribers):
@@ -141,8 +145,8 @@ class DocWriter:
         _name = item["name"]
         _type = item["type"]
         file.write(f"- **`{_name}`** ({_type})\n\n")
-        if "descripiton" in item:
-            _description = item["descripiton"] 
-            file.write(f"{_description}\n\n")
+        if "description" in item:
+            _description = item["description"]
+            file.write(f"\t{_description}\n\n")
         else:
-            file.write(f"{TODO}")
+            file.write(f"\t{TODO}")

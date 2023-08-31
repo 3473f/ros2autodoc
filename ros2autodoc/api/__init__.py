@@ -94,7 +94,7 @@ def document_node(node, package_name, node_name, path):
     writer = DocWriter(package_name, node_name, path)
     param_names, params, description = _get_parameters(node, node_name)
     if len(params) > 0:
-        writer.get_parameters(param_names, params)
+        writer.get_parameters(param_names, params, description)
     subscribers = get_subscriber_info(
         node=node, remote_node_name=node_name, include_hidden=False
     )

@@ -147,6 +147,6 @@ class DocWriter:
         file.write(f"- **`{_name}`** ({_type})\n\n")
         if "description" in item:
             _description = item["description"]
-            file.write(f"\t{_description}\n\n")
+            file.write(f"    {_description}\n\n")
         else:
-            file.write(f"\t{TODO}")
+            file.write(f"    {TODO}")

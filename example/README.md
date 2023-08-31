@@ -24,67 +24,67 @@ TODO: description
 
 - **`background_b`** (integer)
 
-TODO: description
+    Blue channel of the background color
 
 - **`background_g`** (integer)
 
-TODO: description
+    Green channel of the background color
 
 - **`background_r`** (integer)
 
-TODO: description
+    Red channel of the background color
 
 ### Subscribers
 
 - **`/turtle1/cmd_vel`** (geometry_msgs/msg/Twist)
 
-TODO: description
+    TODO: description
 
 ### Publishers
 
 - **`/turtle1/color_sensor`** (turtlesim/msg/Color)
 
-TODO: description
+    TODO: description
 
 - **`/turtle1/pose`** (turtlesim/msg/Pose)
 
-TODO: description
+    TODO: description
 
 ### Services
 
 - **`/clear`** (std_srvs/srv/Empty)
 
-TODO: description
+    TODO: description
 
 - **`/kill`** (turtlesim/srv/Kill)
 
-TODO: description
+    TODO: description
 
 - **`/reset`** (std_srvs/srv/Empty)
 
-TODO: description
+    TODO: description
 
 - **`/spawn`** (turtlesim/srv/Spawn)
 
-TODO: description
+    TODO: description
 
 - **`/turtle1/set_pen`** (turtlesim/srv/SetPen)
 
-TODO: description
+    TODO: description
 
 - **`/turtle1/teleport_absolute`** (turtlesim/srv/TeleportAbsolute)
 
-TODO: description
+    TODO: description
 
 - **`/turtle1/teleport_relative`** (turtlesim/srv/TeleportRelative)
 
-TODO: description
+    TODO: description
 
 ### Actions
 
 - **`/turtle1/rotate_absolute`** (turtlesim/action/RotateAbsolute)
 
-TODO: description
+    TODO: description
 
 ### draw_square
 
@@ -92,10 +92,10 @@ TODO: description
 
 - **`/turtle1/pose`** (turtlesim/msg/Pose)
 
-TODO: description
+    TODO: description
 
 ### Publishers
 
 - **`/turtle1/cmd_vel`** (geometry_msgs/msg/Twist)
 
-TODO: description
+    TODO: description

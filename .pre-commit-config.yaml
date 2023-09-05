@@ -11,14 +11,14 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.2.4
+  rev: v2.2.5
   hooks:
   - id: codespell
     name: Fixing common spelling mistakes
     args:
     - --write-changes
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.34.0
+  rev: v0.36.0
   hooks:
   - id: markdownlint
     name: Fixing markdown linting errors
@@ -29,12 +29,12 @@ repos:
   - id: absolufy-imports
     name: Make python imports absolute
 - repo: https://github.com/psf/black
-  rev: 23.3.0
+  rev: 23.7.0
   hooks:
   - id: black
     name: Python formatting (black)
 - repo: https://github.com/PyCQA/docformatter
-  rev: v1.7.2
+  rev: v1.7.5
   hooks:
   - id: docformatter
     name: Python docstring formatting (docformatter)
@@ -45,13 +45,13 @@ repos:
     name: Sorting python imports
     args: [--profile, black]
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.6.0
+  rev: v3.10.1
   hooks:
   - id: pyupgrade
     name: Upgrade common mistakes
     args: [--py38-plus]
 - repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
+  rev: 6.1.0
   hooks:
   - id: flake8
     name: Linting Python code (flake8)
@@ -61,21 +61,21 @@ repos:
     - flake8-comprehensions
     - flake8-simplify
     - pep8-naming
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: v0.0.272
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.0.287
   hooks:
   - id: ruff
     name: Linting Python code (ruff)
     args: [--fix, --exit-non-zero-on-fix]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.9.0
+  rev: v2.10.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.3.0
+  rev: v1.5.1
   hooks:
   - id: mypy
     name: Static typechecking (mypy)

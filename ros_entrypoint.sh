@@ -13,11 +13,13 @@ echo "Node is: $node"
 if [[ -z "$package" ]]; then
     if [[ -z "$node" ]]; then
         echo "No nodes are provided. Exiting container."
+        exit
     else
         ros2 autodoc generate "$node"
     fi
 elif [[ -z "$node" ]]; then
     echo "No nodes are provided. Exiting container."
+    exit
 else
     ros2 autodoc generate "$node" --package-name "$package"
     echo "Documentation generated successfully!"

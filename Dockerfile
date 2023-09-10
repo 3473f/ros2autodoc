@@ -5,7 +5,7 @@ FROM osrf/ros:${ROS_VERSION}-desktop
 SHELL [ "/bin/bash", "-c" ]
 
 # Copy ros2autodoc into the container
-COPY ./ros2autodoc /colcon_ws/src
+COPY . /colcon_ws/src
 
 # Build the package
 WORKDIR /colcon_ws

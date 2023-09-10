@@ -27,7 +27,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          build-args:
+          build-args: |
             ROS_VERSION=matrix.ros2_version
           push: true
           tags: 3473f/ros2autodoc:${{ matrix.ros2_version }}

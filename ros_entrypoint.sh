@@ -4,7 +4,6 @@ set -e
 # setup ros environment
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 source "/colcon_ws/install/setup.bash"
-exec "$@"
 
 # run ros2autodoc
 if [[ -z "$package_name" ]]; then

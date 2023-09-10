@@ -15,3 +15,6 @@ RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
 # Copy ros_entrypoint.sh
 COPY --chmod=0755 ros_entrypoint.sh /ros_entrypoint.sh
 ENTRYPOINT [ "/ros_entrypoint.sh" ]
+
+RUN mkdir /output
+WORKDIR /output

@@ -12,13 +12,10 @@ WORKDIR /colcon_ws
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     colcon build --symlink-install
 
-# Variables for the script
-ENV package NONE
-ENV node NONE
-
 # Copy ros_entrypoint.sh
 COPY --chmod=0755 ros_entrypoint.sh /ros_entrypoint.sh
-ENTRYPOINT [ "/ros_entrypoint.sh", "@" ]
+ENTRYPOINT [ "/ros_entrypoint.sh" ]
+CMD [ "export package=$package", "export node=$node" ]
 
 # Output directory to be mounted
 RUN mkdir /output

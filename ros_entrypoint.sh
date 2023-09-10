@@ -5,15 +5,18 @@ set -e
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 source "/colcon_ws/install/setup.bash"
 
+package=${package:-""}
+node=${node:-""}
+
 # run ros2autodoc
-if [[ -z "$package_name" ]]; then
-    if [[ -z "$node_name" ]]; then
+if [[ -z "$package" ]]; then
+    if [[ -z "$node" ]]; then
         echo "No nodes are provided. Exiting container."
     else
-        ros2 autodoc $node_name
+        ros2 autodoc generate $node
     fi
-elif [[ -z "$node_name" ]]; then
+elif [[ -z "$node" ]]; then
     echo "No nodes are provided. Exiting container."
 else
-    ros2 autodoc $node_name --package-name $package_name
+    ros2 autodoc generate $node --package-name $package
 fi

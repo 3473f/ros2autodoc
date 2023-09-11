@@ -5,22 +5,35 @@ set -e
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 source "/colcon_ws/install/setup.bash"
 
+NODE=""
+PACKAGE=""
+
+while getopts ":n:p:" opt; do
+    case "${opt}" in
+        n)
+            NODE=${OPTARG}
+            ;;
+        p)
+            PACKAGE=${OPTARG}
+            ;;
+        *)
+            exit
+            ;;
+    esac
+done
+
 # debugging
-echo "Package is: $package"
-echo "Node is: $node"
+echo "Package is: $PACKAGE"
+echo "Node is: $NODE"
 
 # run ros2autodoc
-if [[ -z "$package" ]]; then
-    if [[ -z "$node" ]]; then
-        echo "No nodes are provided. Exiting container."
-        exit
-    else
-        ros2 autodoc generate "$node"
-    fi
-elif [[ -z "$node" ]]; then
+if [[ "$NODE" = "" ]]; then
     echo "No nodes are provided. Exiting container."
     exit
+elif [[ "$PACKAGE" = "" ]]; then
+    ros2 autodoc generate "$NODE"
+    exit
 else
-    ros2 autodoc generate "$node" --package-name "$package"
-    echo "Documentation generated successfully!"
+    ros2 autodoc generate "$NODE" --package-name "$PACKAGE"
+    exit
 fi

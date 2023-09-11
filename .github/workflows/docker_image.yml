@@ -3,7 +3,7 @@ name: Publish docker image
 # This is a test for now
 on:
   push:
-    branches: docker-container
+    branches: main
 
 jobs:
   push_to_registry:
@@ -31,4 +31,3 @@ jobs:
             ROS_VERSION=${{ matrix.ros2_version }}
           push: true
           tags: 3473f/ros2autodoc:${{ matrix.ros2_version }}
-

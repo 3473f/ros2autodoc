@@ -5,6 +5,7 @@ set -e
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 source "/colcon_ws/install/setup.bash"
 
+# run ros2autodoc
 NODE=""
 PACKAGE=""
 
@@ -22,11 +23,6 @@ while getopts ":n:p:" opt; do
     esac
 done
 
-# debugging
-echo "Package is: $PACKAGE"
-echo "Node is: $NODE"
-
-# run ros2autodoc
 if [[ "$NODE" = "" ]]; then
     echo "No nodes are provided. Exiting container."
     exit

@@ -38,19 +38,20 @@ source install/setup.bash
 ```shell
 $ ros2 autodoc generate --help
 
-usage: ros2 autodoc generate [-h] [--output-dir OUTPUT_DIR] package_name [node ...]
+usage: ros2 autodoc generate [-h] [--package-name] [--output-dir] [--seperate-files] [node ...]
 
 Automatically generate documentation for a ROS2 node
 
 positional arguments:
-  node                  name of the nodes to be documented. If not specified, all running nodes from the package will be documented.
+  node              name of the nodes to be documented. If not specified, all running nodes from the package will be documented.
 
 options:
-  -h, --help            show this help message and exit
-  --package-name PACKAGE_NAME
-                        name of the package to be documented. If not specified, the package documentation will be left out.
-  --output-dir OUTPUT_DIR
-                        the directory where documentation should be written.
+  -h, --help        show this help message and exit
+  --package-name    name of the package to be documented. If not specified, the package documentation will be left out.
+  --output-dir      the directory where documentation should be written. If not specified, the file will be saved to the current
+                    directory.
+  --seperate-files  when this option is set, the node documentation will be written to separate files and no package documentation will
+                    be generated.
 
 ```
 

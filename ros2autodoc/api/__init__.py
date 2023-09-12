@@ -117,6 +117,7 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
         writer.get_action_servers(actions_servers)
     writer.write(path + file_name)
 
+
 def _get_parameters(node, node_name):
     name_to_type_map = {}
     name_to_description_map = {}

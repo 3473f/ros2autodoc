@@ -89,9 +89,9 @@ def get_nodes(package_name):
     return nodes
 
 
-def document_node(node, package_name, node_name, path):
+def document_node(node, package_name, node_name, path, file_name="/README.md"):
     """Document the given node."""
-    writer = DocWriter(package_name, node_name, path)
+    writer = DocWriter(package_name, node_name)
     param_names, params, description = _get_parameters(node, node_name)
     if len(params) > 0:
         writer.get_parameters(param_names, params, description)
@@ -115,8 +115,7 @@ def document_node(node, package_name, node_name, path):
     )
     if len(actions_servers) > 0:
         writer.get_action_servers(actions_servers)
-    writer.write()
-
+    writer.write(path + file_name)
 
 def _get_parameters(node, node_name):
     name_to_type_map = {}

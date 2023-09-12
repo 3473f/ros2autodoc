@@ -42,6 +42,7 @@ class GenerateVerb(VerbExtension):
     def add_arguments(self, parser, cli_name):
         parser.add_argument(
             "--package-name",
+            metavar='',
             help="name of the package to be documented. If not specified, "
             "the package documentation will be left out.",
         )
@@ -55,7 +56,16 @@ class GenerateVerb(VerbExtension):
         parser.add_argument(
             "--output-dir",
             default=abspath(curdir),
-            help="the directory where documentation should be written.",
+            metavar='',
+            help="the directory where documentation should be written. If not"
+            " specified, the file will be saved to the current directory.",
+        )
+        parser.add_argument(
+            "--seperate-files",
+            action="store_true",
+            help="when this option is set, the node documentation will "
+            "be written to seperate files and no package documentation will "
+            "be generated."
         )
 
     def main(self, *, args):
@@ -67,5 +77,7 @@ class GenerateVerb(VerbExtension):
                 if not check_for_node(node, f"/{node_name}"):
                     print(f"Node '{node_name}' is not running and will be ignored.")
                     continue
-                # document the node
-                document_node(node, args.package_name, node_name, args.output_dir)
+                if args.seperate_files:
+                    document_node(node, None, node_name, args.output_dir, f'/{node_name}.md')
+                else:
+                    document_node(node, args.package_name, node_name, args.output_dir)

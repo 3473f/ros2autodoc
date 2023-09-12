@@ -98,21 +98,20 @@ class DocWriter:
             self.actions.append({"name": action.name, "type": ", ".join(action.types)})
 
     def write(self, path):
-        if not os.path.exists(path):
-            if self.package_name is not None:
-                with open(path, "w", encoding="utf-8") as f:
-                    f.write(
-                        "# " + self.package_name + "\n\n"
-                        "## Overview\n\n"
-                        f"{TODO}"
-                        "## Installation\n\n"
-                        f"{TODO}"
-                        "## Usage\n\n"
-                        f"{TODO}"
-                        "## Config files\n\n"
-                        f"{TODO}"
-                        "## Nodes\n\n"
-                    )
+        if not os.path.exists(path) and self.package_name is not None:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(
+                    "# " + self.package_name + "\n\n"
+                    "## Overview\n\n"
+                    f"{TODO}"
+                    "## Installation\n\n"
+                    f"{TODO}"
+                    "## Usage\n\n"
+                    f"{TODO}"
+                    "## Config files\n\n"
+                    f"{TODO}"
+                    "## Nodes\n\n"
+                )
 
         with open(path, "a", encoding="utf-8") as f:
             f.write("### " + self.node_name + "\n\n")

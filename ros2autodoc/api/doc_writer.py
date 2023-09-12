@@ -51,10 +51,9 @@ TODO = "TODO: description\n\n"
 
 
 class DocWriter:
-    def __init__(self, package_name, node_name, directory):
+    def __init__(self, package_name, node_name):
         self.package_name = package_name
         self.node_name = node_name
-        self.file = directory + "/README.md"
         self.parameters = []
         self.subscribers = []
         self.publishers = []
@@ -98,13 +97,10 @@ class DocWriter:
         for action in actions:
             self.actions.append({"name": action.name, "type": ", ".join(action.types)})
 
-    def write(self):
-        if os.path.exists(self.file):
-            with open(self.file, "a", encoding="utf-8") as f:
-                f.write("### " + self.node_name + "\n\n")
-        else:
+    def write(self, path):
+        if not os.path.exists(path):
             if self.package_name is not None:
-                with open(self.file, "w", encoding="utf-8") as f:
+                with open(path, "w", encoding="utf-8") as f:
                     f.write(
                         "# " + self.package_name + "\n\n"
                         "## Overview\n\n"
@@ -116,10 +112,10 @@ class DocWriter:
                         "## Config files\n\n"
                         f"{TODO}"
                         "## Nodes\n\n"
-                        "### " + self.node_name + "\n\n"
                     )
 
-        with open(self.file, "a", encoding="utf-8") as f:
+        with open(path, "a", encoding="utf-8") as f:
+            f.write("### " + self.node_name + "\n\n")
             if self.parameters:
                 f.write("### Parameters\n\n")
                 for param in self.parameters:

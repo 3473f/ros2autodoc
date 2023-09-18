@@ -45,7 +45,7 @@ repos:
     name: Sorting python imports
     args: [--profile, black]
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.10.1
+  rev: v3.11.0
   hooks:
   - id: pyupgrade
     name: Upgrade common mistakes
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.0.287
+  rev: v0.0.290
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

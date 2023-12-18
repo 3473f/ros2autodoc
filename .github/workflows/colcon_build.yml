@@ -28,7 +28,7 @@ jobs:
         target-ros2-distro: ${{ matrix.ros2-version }}
         package-name: ros2autodoc
         skip-tests: true
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: colcon_build_logs
         path: ros_ws/${{ matrix.ros2-version }}/${{ matrix.os }}/log

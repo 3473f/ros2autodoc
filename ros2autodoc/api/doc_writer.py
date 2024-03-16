@@ -35,6 +35,8 @@ class DocWriter:
             if param not in PARAMS_TO_IGNORE:
                 param_type = params_map[param]
                 param_description = desciption_map[param]
+                if not param_description:
+                    param_description = TODO
                 self.parameters.append(
                     {
                         "name": param,

@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.2.2
+  rev: v0.3.2
   hooks:
   - id: ruff
     name: Linting Python code (ruff)
@@ -75,13 +75,13 @@ repos:
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.8.0
+  rev: v1.9.0
   hooks:
   - id: mypy
     name: Static typechecking (mypy)
     exclude: ^tests/
 - repo: https://github.com/PyCQA/bandit
-  rev: 1.7.7
+  rev: 1.7.8
   hooks:
   - id: bandit
     name: Security linting (bandit)

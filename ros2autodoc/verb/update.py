@@ -21,7 +21,7 @@ class UpdateVerb(VerbExtension):
             "input-file",
             metavar="",
             nargs=1,
-            help="absoulte path of the README.md file to be updated.",
+            help="absolute path of the README.md file to be updated.",
             required=True,
         )
 

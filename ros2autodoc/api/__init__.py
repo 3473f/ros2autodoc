@@ -7,6 +7,7 @@ from ros2node.api import INFO_NONUNIQUE_WARNING_TEMPLATE, get_node_names
 # ROS2 pkg API
 from ros2pkg.api import get_executable_paths, get_package_names
 
+from ros2autodoc.api.doc_parser import DocParser
 from ros2autodoc.api.doc_writer import DocWriter
 from ros2autodoc.api.node_interface_collector import NodeInterfaceCollector
 
@@ -52,3 +53,25 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
     node_interface = interface_collector.get_interfaces()
     writer = DocWriter(package_name, node_name, node_interface)
     writer.write(path + file_name)
+
+
+def update_documentation(node, file_path):
+    """Update the documentation for the given node."""
+    parser = DocParser(file_path)
+    if node not in parser.get_node_names():
+        print(f"Node {node} not found in document {file_path}")
+        return
+
+
+def _get_parameters(node, node_name):
+    name_to_type_map = {}
+    name_to_description_map = {}
+    parameter_names = call_list_parameters(node=node, node_name=node_name)
+    sorted_names = sorted(parameter_names)
+    resp = call_describe_parameters(
+        node=node, node_name=node_name, parameter_names=sorted_names
+    )
+    for descriptor in resp.descriptors:
+        name_to_type_map[descriptor.name] = get_parameter_type_string(descriptor.type)
+        name_to_description_map[descriptor.name] = descriptor.description
+    return sorted_names, name_to_type_map, name_to_description_map

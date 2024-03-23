@@ -119,11 +119,11 @@ class DocParser:
                         if name:
                             match = re.search(r"\((.*?)\)", line)
                             if match:
-                                type = match.group(1)
+                                data_type = match.group(1)
                             else:
-                                type = ""
+                                data_type = ""
                             if "type" not in params:
-                                params[name] = {"type": type}
+                                params[name] = {"type": data_type}
                     elif line.startswith("    "):
                         params[name]["desc"] = line.strip()
                         name = None
@@ -135,11 +135,11 @@ class DocParser:
                         if name:
                             match = re.search(r"\((.*?)\)", line)
                             if match:
-                                type = match.group(1)
+                                data_type = match.group(1)
                             else:
-                                type = ""
+                                data_type = ""
                             if "type" not in subs:
-                                subs[name] = {"type": type}
+                                subs[name] = {"type": data_type}
                     elif line.startswith("    "):
                         subs[name]["desc"] = line.strip()
                         name = None
@@ -151,11 +151,11 @@ class DocParser:
                         if name:
                             match = re.search(r"\((.*?)\)", line)
                             if match:
-                                type = match.group(1)
+                                data_type = match.group(1)
                             else:
-                                type = ""
+                                data_type = ""
                             if "type" not in pubs:
-                                pubs[name] = {"type": type}
+                                pubs[name] = {"type": data_type}
                     elif line.startswith("    "):
                         pubs[name]["desc"] = line.strip()
                         name = None
@@ -167,11 +167,11 @@ class DocParser:
                         if name:
                             match = re.search(r"\((.*?)\)", line)
                             if match:
-                                type = match.group(1)
+                                data_type = match.group(1)
                             else:
-                                type = ""
+                                data_type = ""
                             if "type" not in srvs:
-                                srvs[name] = {"type": type}
+                                srvs[name] = {"type": data_type}
                     elif line.startswith("    "):
                         srvs[name]["desc"] = line.strip()
                         name = None
@@ -183,11 +183,11 @@ class DocParser:
                         if name:
                             match = re.search(r"\((.*?)\)", line)
                             if match:
-                                type = match.group(1)
+                                data_type = match.group(1)
                             else:
-                                type = ""
+                                data_type = ""
                             if "type" not in actions:
-                                actions[name] = {"type": type}
+                                actions[name] = {"type": data_type}
                     elif line.startswith("    "):
                         actions[name]["desc"] = line.strip()
                         name = None

@@ -5,11 +5,11 @@ import re
 class Node:
     def __init__(self):
         self.name = None
-        self.parameters = {}
-        self.subscribers = {}
-        self.publishers = {}
-        self.services = {}
-        self.actions = {}
+        self.parameters = []
+        self.subscribers = []
+        self.publishers = []
+        self.services = []
+        self.actions = []
 
 
 class DocParser:
@@ -18,7 +18,7 @@ class DocParser:
         self.text_to_keep = []
         self.nodes = []
 
-    def _parse_lines(self):
+    def parse(self):
         """Parse the documentation."""
         if not os.path.exists(self.path):
             print("File not found.")
@@ -89,11 +89,11 @@ class DocParser:
                 elif line.strip().startswith("### "):
                     # Update last node
                     if len(self.nodes) > 0:
-                        self.nodes[node_ctr - 1].parameters = params
-                        self.nodes[node_ctr - 1].publishers = pubs
-                        self.nodes[node_ctr - 1].subscribers = subs
-                        self.nodes[node_ctr - 1].services = srvs
-                        self.nodes[node_ctr - 1].actions = actions
+                        self.nodes[node_ctr - 1].parameters = self._dict_to_list(params)
+                        self.nodes[node_ctr - 1].publishers = self._dict_to_list(pubs)
+                        self.nodes[node_ctr - 1].subscribers = self._dict_to_list(subs)
+                        self.nodes[node_ctr - 1].services = self._dict_to_list(srvs)
+                        self.nodes[node_ctr - 1].actions = self._dict_to_list(actions)
                     # Rest flags
                     parse_params = False
                     parse_subs = False
@@ -193,8 +193,29 @@ class DocParser:
                         name = None
 
             # EOF was reached
-            self.nodes[node_ctr - 1].parameters = params
-            self.nodes[node_ctr - 1].publishers = pubs
-            self.nodes[node_ctr - 1].subscribers = subs
-            self.nodes[node_ctr - 1].services = srvs
-            self.nodes[node_ctr - 1].actions = actions
+            self.nodes[node_ctr - 1].parameters = self._dict_to_list(params)
+            self.nodes[node_ctr - 1].publishers = self._dict_to_list(pubs)
+            self.nodes[node_ctr - 1].subscribers = self._dict_to_list(subs)
+            self.nodes[node_ctr - 1].services = self._dict_to_list(srvs)
+            self.nodes[node_ctr - 1].actions = self._dict_to_list(actions)
+
+    def get_nodes(self):
+        return self.nodes
+
+    def get_node_names(self):
+        node_names = []
+        for node in self.nodes:
+            node_names.append(node.name)
+        return node_names
+
+    def _dict_to_list(self, dictionary):
+        output_list = []
+        for key in dictionary:
+            output_list.append(
+                {
+                    "name": f"{key}",
+                    "type": dictionary[key]["type"],
+                    "description": dictionary[key]["desc"],
+                }
+            )
+        return output_list

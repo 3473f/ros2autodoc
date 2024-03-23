@@ -21,6 +21,7 @@ from ros2param.api import (
 # ROS2 pkg API
 from ros2pkg.api import get_executable_paths, get_package_names
 
+from ros2autodoc.api.doc_parser import DocParser
 from ros2autodoc.api.doc_writer import DocWriter
 
 
@@ -86,6 +87,14 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
     if len(actions_servers) > 0:
         writer.get_action_servers(actions_servers)
     writer.write(path + file_name)
+
+
+def update_documentation(node, file_path):
+    """Update the documentation for the given node."""
+    parser = DocParser(file_path)
+    if node not in parser.get_node_names():
+        print(f"Node {node} not found in document {file_path}")
+        return
 
 
 def _get_parameters(node, node_name):

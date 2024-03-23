@@ -1,6 +1,7 @@
 import os
 import re
 
+
 class Node:
     def __init__(self):
         self.name = None
@@ -20,16 +21,16 @@ class DocParser:
     def _parse_lines(self):
         """Parse the documentation."""
         if not os.path.exists(self.path):
-            print('File not found.')
+            print("File not found.")
             return
-        
+
         params = {}
         pubs = {}
         subs = {}
         srvs = {}
         actions = {}
         name = None
-        with open(self.path, 'r') as file:
+        with open(self.path) as file:
             start_parsing = False
             parse_params = False
             parse_subs = False
@@ -41,7 +42,7 @@ class DocParser:
             node_ctr = 0
 
             for line in file:
-                if line.strip().startswith('## Nodes'):
+                if line.strip().startswith("## Nodes"):
                     self.text_to_keep.append(line)
                     start_parsing = True
                     continue
@@ -49,43 +50,43 @@ class DocParser:
                 if not start_parsing:
                     self.text_to_keep.append(line)
                     continue
-                
-                if line.strip().startswith('### Parameters'):
+
+                if line.strip().startswith("### Parameters"):
                     parse_params = True
                     parse_subs = False
                     parse_pubs = False
                     parse_srvs = False
                     parse_actions = False
                     continue
-                elif line.strip().startswith('### Subscribers'):
+                elif line.strip().startswith("### Subscribers"):
                     parse_params = False
                     parse_subs = True
                     parse_pubs = False
                     parse_srvs = False
                     parse_actions = False
                     continue
-                elif line.strip().startswith('### Publishers'):
+                elif line.strip().startswith("### Publishers"):
                     parse_params = False
                     parse_subs = False
                     parse_pubs = True
                     parse_srvs = False
                     parse_actions = False
                     continue
-                elif line.strip().startswith('### Services'):
+                elif line.strip().startswith("### Services"):
                     parse_params = False
                     parse_subs = False
                     parse_pubs = False
                     parse_srvs = True
                     parse_actions = False
                     continue
-                elif line.strip().startswith('### Actions'):
+                elif line.strip().startswith("### Actions"):
                     parse_params = False
                     parse_subs = False
                     parse_pubs = False
                     parse_srvs = False
                     parse_actions = True
                     continue
-                elif line.strip().startswith('### '):
+                elif line.strip().startswith("### "):
                     # Update last node
                     if len(self.nodes) > 0:
                         self.nodes[node_ctr - 1].parameters = params
@@ -111,86 +112,86 @@ class DocParser:
                     self.nodes.append(curr_node)
                     node_ctr = node_ctr + 1
                     continue
-                
+
                 if parse_params:
-                    if line.startswith('- **'):
-                        name = line.split('**`')[1].split('`**')[0]
+                    if line.startswith("- **"):
+                        name = line.split("**`")[1].split("`**")[0]
                         if name:
-                            match = re.search(r'\((.*?)\)', line)
+                            match = re.search(r"\((.*?)\)", line)
                             if match:
                                 type = match.group(1)
                             else:
-                                type = ''
-                            if 'type' not in params:
-                                params[name] = {'type': type}
-                    elif line.startswith('    '):
-                        params[name]['desc'] = line.strip()
+                                type = ""
+                            if "type" not in params:
+                                params[name] = {"type": type}
+                    elif line.startswith("    "):
+                        params[name]["desc"] = line.strip()
                         name = None
                     continue
 
                 elif parse_subs:
-                    if line.startswith('- **'):
-                        name = line.split('**`')[1].split('`**')[0]
+                    if line.startswith("- **"):
+                        name = line.split("**`")[1].split("`**")[0]
                         if name:
-                            match = re.search(r'\((.*?)\)', line)
+                            match = re.search(r"\((.*?)\)", line)
                             if match:
                                 type = match.group(1)
                             else:
-                                type = ''
-                            if 'type' not in subs:
-                                subs[name] = {'type': type}
-                    elif line.startswith('    '):
-                        subs[name]['desc'] = line.strip()
+                                type = ""
+                            if "type" not in subs:
+                                subs[name] = {"type": type}
+                    elif line.startswith("    "):
+                        subs[name]["desc"] = line.strip()
                         name = None
                     continue
 
                 elif parse_pubs:
-                    if line.startswith('- **'):
-                        name = line.split('**`')[1].split('`**')[0]
+                    if line.startswith("- **"):
+                        name = line.split("**`")[1].split("`**")[0]
                         if name:
-                            match = re.search(r'\((.*?)\)', line)
+                            match = re.search(r"\((.*?)\)", line)
                             if match:
                                 type = match.group(1)
                             else:
-                                type = ''
-                            if 'type' not in pubs:
-                                pubs[name] = {'type': type}
-                    elif line.startswith('    '):
-                        pubs[name]['desc'] = line.strip()
+                                type = ""
+                            if "type" not in pubs:
+                                pubs[name] = {"type": type}
+                    elif line.startswith("    "):
+                        pubs[name]["desc"] = line.strip()
                         name = None
                     continue
 
                 elif parse_srvs:
-                    if line.startswith('- **'):
-                        name = line.split('**`')[1].split('`**')[0]
+                    if line.startswith("- **"):
+                        name = line.split("**`")[1].split("`**")[0]
                         if name:
-                            match = re.search(r'\((.*?)\)', line)
+                            match = re.search(r"\((.*?)\)", line)
                             if match:
                                 type = match.group(1)
                             else:
-                                type = ''
-                            if 'type' not in srvs:
-                                srvs[name] = {'type': type}
-                    elif line.startswith('    '):
-                        srvs[name]['desc'] = line.strip()
+                                type = ""
+                            if "type" not in srvs:
+                                srvs[name] = {"type": type}
+                    elif line.startswith("    "):
+                        srvs[name]["desc"] = line.strip()
                         name = None
                     continue
-                
+
                 elif parse_actions:
-                    if line.startswith('- **'):
-                        name = line.split('**`')[1].split('`**')[0]
+                    if line.startswith("- **"):
+                        name = line.split("**`")[1].split("`**")[0]
                         if name:
-                            match = re.search(r'\((.*?)\)', line)
+                            match = re.search(r"\((.*?)\)", line)
                             if match:
                                 type = match.group(1)
                             else:
-                                type = ''
-                            if 'type' not in actions:
-                                actions[name] = {'type': type}
-                    elif line.startswith('    '):
-                        actions[name]['desc'] = line.strip()
+                                type = ""
+                            if "type" not in actions:
+                                actions[name] = {"type": type}
+                    elif line.startswith("    "):
+                        actions[name]["desc"] = line.strip()
                         name = None
-            
+
             # EOF was reached
             self.nodes[node_ctr - 1].parameters = params
             self.nodes[node_ctr - 1].publishers = pubs

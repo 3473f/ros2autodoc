@@ -1,15 +1,7 @@
 import os
 import re
 
-
-class Node:
-    def __init__(self):
-        self.name = None
-        self.parameters = []
-        self.subscribers = []
-        self.publishers = []
-        self.services = []
-        self.actions = []
+from node import Node
 
 
 class DocParser:

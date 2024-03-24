@@ -1,5 +1,8 @@
 import os
 
+from node import Node
+
+
 PARAMS_TO_IGNORE = [
     "use_sim_time",
     "qos_overrides./parameter_events.publisher.depth",
@@ -23,12 +26,8 @@ TODO = "TODO: description\n\n"
 class DocWriter:
     def __init__(self, package_name, node_name):
         self.package_name = package_name
-        self.node_name = node_name
-        self.parameters = []
-        self.subscribers = []
-        self.publishers = []
-        self.services = []
-        self.actions = []
+        self.node = Node()
+        self.node.name = node_name
 
     def get_parameters(self, param_names, params_map, desciption_map):
         for param in param_names:
@@ -37,7 +36,7 @@ class DocWriter:
                 param_description = desciption_map[param]
                 if not param_description:
                     param_description = TODO
-                self.parameters.append(
+                self.node.parameters.append(
                     {
                         "name": param,
                         "type": param_type,
@@ -48,26 +47,51 @@ class DocWriter:
     def get_subscribers(self, subscribers):
         for sub in subscribers:
             if sub.name not in SUBSCRIBERS_TO_IGNORE:
-                self.subscribers.append(
-                    {"name": sub.name, "type": ", ".join(sub.types)}
+                self.node.subscribers.append(
+                    {
+                        "name": sub.name,
+                        "type": ", ".join(sub.types),
+                        "description": TODO,
+                    }
                 )
 
     def get_publishers(self, publishers):
         for pub in publishers:
             if pub.name not in PUBLISHERS_TO_IGNORE:
-                self.publishers.append({"name": pub.name, "type": ", ".join(pub.types)})
+                self.node.publishers.append(
+                    {
+                        "name": pub.name,
+                        "type": ", ".join(pub.types),
+                        "description": TODO,
+                    }
+                )
 
     def get_service_servers(self, services):
         for srv in services:
             if not self._ignore_service(srv.name):
-                self.services.append({"name": srv.name, "type": ", ".join(srv.types)})
+                self.node.services.append(
+                    {
+                        "name": srv.name,
+                        "type": ", ".join(srv.types),
+                        "description": TODO,
+                    }
+                )
 
     def _ignore_service(self, srv_name):
         return any(srv_name == "/" + self.node_name + srv for srv in SERVICES_TO_IGNORE)
 
     def get_action_servers(self, actions):
         for action in actions:
-            self.actions.append({"name": action.name, "type": ", ".join(action.types)})
+            self.node.actions.append(
+                {
+                    "name": action.name,
+                    "type": ", ".join(action.types),
+                    "description": TODO,
+                }
+            )
+
+    def get_node(self):
+        return self.node
 
     def write(self, path):
         if not os.path.exists(path) and self.package_name is not None:
@@ -87,25 +111,25 @@ class DocWriter:
 
         with open(path, "a", encoding="utf-8") as f:
             f.write("### " + self.node_name + "\n\n")
-            if self.parameters:
+            if self.node.parameters:
                 f.write("### Parameters\n\n")
-                for param in self.parameters:
+                for param in self.node.parameters:
                     self._write_item(f, param)
-            if self.subscribers:
+            if self.node.subscribers:
                 f.write("### Subscribers\n\n")
-                for sub in self.subscribers:
+                for sub in self.node.subscribers:
                     self._write_item(f, sub)
-            if self.publishers:
+            if self.node.publishers:
                 f.write("### Publishers\n\n")
-                for pub in self.publishers:
+                for pub in self.node.publishers:
                     self._write_item(f, pub)
-            if self.services:
+            if self.node.services:
                 f.write("### Services\n\n")
-                for srv in self.services:
+                for srv in self.node.services:
                     self._write_item(f, srv)
-            if self.actions:
+            if self.node.actions:
                 f.write("### Actions\n\n")
-                for action in self.actions:
+                for action in self.node.actions:
                     self._write_item(f, action)
 
     def _write_item(self, file, item):

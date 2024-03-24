@@ -62,7 +62,7 @@ def update_documentation(node, node_name, file_path):
     if node_name not in parser.get_node_names():
         print(f"Node {node_name} not found in document {file_path}")
         return
-    
+
     param_names, params, description = _get_parameters(node, node_name)
     if len(params) > 0:
         writer.get_parameters(param_names, params, description)
@@ -92,6 +92,7 @@ def update_documentation(node, node_name, file_path):
         if parsed_node.name == curr_node.name:
             # compare both of their content
             continue
+
 
 def _get_parameters(node, node_name):
     name_to_type_map = {}

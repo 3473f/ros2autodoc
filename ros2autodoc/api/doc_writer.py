@@ -2,7 +2,6 @@ import os
 
 from node import Node
 
-
 PARAMS_TO_IGNORE = [
     "use_sim_time",
     "qos_overrides./parameter_events.publisher.depth",

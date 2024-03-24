@@ -22,7 +22,7 @@ from ros2param.api import (
 from ros2pkg.api import get_executable_paths, get_package_names
 
 from ros2autodoc.api.doc_parser import DocParser
-from ros2autodoc.api.doc_writer import DocWriter, TODO
+from ros2autodoc.api.doc_writer import TODO, DocWriter
 
 
 def check_for_package(package_name):
@@ -132,13 +132,14 @@ def update_documentation(node, node_name, file_path):
         # Update the parsed node with parameters from the running nodes
         for old_param in parsed_node.parameters:
             for new_param in running_node.parameters:
-                if old_param['name'] == new_param['name']:
-                    if old_param['type'] is not new_param['type']:
-                        old_param['type'] = new_param['type']
-                    if old_param['description'] is not new_param['description'] and new_param['description'] is not TODO:
-                        old_param['description'] = new_param['description']
-             
-                        
+                if old_param["name"] == new_param["name"]:
+                    if old_param["type"] is not new_param["type"]:
+                        old_param["type"] = new_param["type"]
+                    if (
+                        old_param["description"] is not new_param["description"]
+                        and new_param["description"] is not TODO
+                    ):
+                        old_param["description"] = new_param["description"]
 
 
 def _get_parameters(node, node_name):

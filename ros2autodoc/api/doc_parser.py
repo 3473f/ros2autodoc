@@ -199,7 +199,7 @@ class DocParser:
         for node in self.nodes:
             node_names.append(node.name)
         return node_names
-    
+
     def get_node(self, name):
         for node in self.nodes:
             if node.name == name:

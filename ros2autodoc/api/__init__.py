@@ -98,13 +98,14 @@ def update_documentation(node, node_name, file_path):
         # Update the parsed node with parameters from the running nodes
         for old_param in parsed_node.parameters:
             for new_param in running_node.parameters:
-                if old_param['name'] == new_param['name']:
-                    if old_param['type'] is not new_param['type']:
-                        old_param['type'] = new_param['type']
-                    if old_param['description'] is not new_param['description'] and new_param['description'] is not TODO:
-                        old_param['description'] = new_param['description']
-             
-                        
+                if old_param["name"] == new_param["name"]:
+                    if old_param["type"] is not new_param["type"]:
+                        old_param["type"] = new_param["type"]
+                    if (
+                        old_param["description"] is not new_param["description"]
+                        and new_param["description"] is not TODO
+                    ):
+                        old_param["description"] = new_param["description"]
 
 
 def _get_parameters(node, node_name):

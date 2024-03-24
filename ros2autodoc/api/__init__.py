@@ -89,13 +89,43 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
     writer.write(path + file_name)
 
 
-def update_documentation(node, file_path):
+def update_documentation(node, node_name, file_path):
     """Update the documentation for the given node."""
     parser = DocParser(file_path)
-    if node not in parser.get_node_names():
-        print(f"Node {node} not found in document {file_path}")
+    writer = DocWriter(None, node_name)
+    if node_name not in parser.get_node_names():
+        print(f"Node {node_name} not found in document {file_path}")
         return
+    
+    param_names, params, description = _get_parameters(node, node_name)
+    if len(params) > 0:
+        writer.get_parameters(param_names, params, description)
+    subscribers = get_subscriber_info(
+        node=node, remote_node_name=node_name, include_hidden=False
+    )
+    if len(subscribers) > 0:
+        writer.get_subscribers(subscribers)
+    publishers = get_publisher_info(
+        node=node, remote_node_name=node_name, include_hidden=False
+    )
+    if len(publishers) > 0:
+        writer.get_publishers(publishers)
+    service_servers = get_service_server_info(
+        node=node, remote_node_name=node_name, include_hidden=False
+    )
+    if len(service_servers) > 0:
+        writer.get_service_servers(service_servers)
+    actions_servers = get_action_server_info(
+        node=node, remote_node_name=node_name, include_hidden=False
+    )
+    if len(actions_servers) > 0:
+        writer.get_action_servers(actions_servers)
 
+    curr_node = writer.get_node()
+    for i, parsed_node in enumerate(parser.get_nodes()):
+        if parsed_node.name == curr_node.name:
+            # compare both of their content
+            continue
 
 def _get_parameters(node, node_name):
     name_to_type_map = {}

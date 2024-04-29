@@ -29,7 +29,7 @@ repos:
   - id: absolufy-imports
     name: Make python imports absolute
 - repo: https://github.com/psf/black
-  rev: 24.4.0
+  rev: 24.4.2
   hooks:
   - id: black
     name: Python formatting (black)
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.3.7
+  rev: v0.4.2
   hooks:
   - id: ruff
     name: Linting Python code (ruff)
@@ -75,7 +75,7 @@ repos:
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.9.0
+  rev: v1.10.0
   hooks:
   - id: mypy
     name: Static typechecking (mypy)

@@ -58,3 +58,7 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
 def update_documentation(node, node_name, file_path):
     """Update the documentation for the given node."""
     parser = DocParser(file_path)
+    parser.parse()
+    nodes = parser.get_nodes()
+    for key, val in nodes.items():
+        print(key, val)

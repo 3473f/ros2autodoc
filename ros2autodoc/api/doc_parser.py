@@ -87,7 +87,6 @@ class DocParser:
                     continue
 
                 if parse_params:
-                    param_name = None
                     if line.startswith("- **"):
                         param_name = line.split("**`")[1].split("`**")[0]
                         if param_name:
@@ -101,11 +100,11 @@ class DocParser:
                             else:
                                 data_type = ""
                             self.nodes[curr_node_name]["parameters"][param_name]["type"] = data_type
-                    elif line.startswith("    ") and param_name:
-                            self.nodes[curr_node_name]["parameters"][param_name]["description"] = line.strip()
+                    elif line.startswith("    ") and line.strip():
+                        self.nodes[curr_node_name]["parameters"][param_name]["description"] = line.strip()
+                    continue
 
                 elif parse_subs:
-                    sub_name = None
                     if line.startswith("- **"):
                         sub_name = line.split("**`")[1].split("`**")[0]
                         if sub_name:
@@ -124,7 +123,6 @@ class DocParser:
                     continue
 
                 elif parse_pubs:
-                    pub_name = None
                     if line.startswith("- **"):
                         pub_name = line.split("**`")[1].split("`**")[0]
                         if pub_name:
@@ -143,7 +141,6 @@ class DocParser:
                     continue
 
                 elif parse_srvs:
-                    srvs_name = None
                     if line.startswith("- **"):
                         srvs_name = line.split("**`")[1].split("`**")[0]
                         if srvs_name:
@@ -162,7 +159,6 @@ class DocParser:
                     continue
 
                 elif parse_actions:
-                    action_name = None
                     if line.startswith("- **"):
                         action_name = line.split("**`")[1].split("`**")[0]
                         if action_name:

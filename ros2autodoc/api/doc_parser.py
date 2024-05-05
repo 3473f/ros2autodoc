@@ -1,27 +1,19 @@
 import os
 import re
 
-from node import Node
-
 
 class DocParser:
     def __init__(self, path):
         self.path = path
         self.text_to_keep = []
-        self.nodes = []
+        self.nodes = {}
 
     def parse(self):
         """Parse the documentation."""
         if not os.path.exists(self.path):
             print("File not found.")
             return
-
-        params = {}
-        pubs = {}
-        subs = {}
-        srvs = {}
-        actions = {}
-        name = None
+        
         with open(self.path) as file:
             start_parsing = False
             parse_params = False
@@ -29,9 +21,6 @@ class DocParser:
             parse_pubs = False
             parse_srvs = False
             parse_actions = False
-
-            curr_node = None
-            node_ctr = 0
 
             for line in file:
                 if line.strip().startswith("## Nodes"):
@@ -79,141 +68,116 @@ class DocParser:
                     parse_actions = True
                     continue
                 elif line.strip().startswith("### "):
-                    # Update last node
-                    if len(self.nodes) > 0:
-                        self.nodes[node_ctr - 1].parameters = self._dict_to_list(params)
-                        self.nodes[node_ctr - 1].publishers = self._dict_to_list(pubs)
-                        self.nodes[node_ctr - 1].subscribers = self._dict_to_list(subs)
-                        self.nodes[node_ctr - 1].services = self._dict_to_list(srvs)
-                        self.nodes[node_ctr - 1].actions = self._dict_to_list(actions)
                     # Rest flags
                     parse_params = False
                     parse_subs = False
                     parse_pubs = False
                     parse_srvs = False
                     parse_actions = False
-                    # Empty dicts
-                    params = {}
-                    pubs = {}
-                    subs = {}
-                    srvs = {}
-                    actions = {}
+
                     # Create new node
-                    curr_node = Node()
-                    curr_node.name = line.strip()[4:]
-                    self.nodes.append(curr_node)
-                    node_ctr = node_ctr + 1
+                    curr_node_name = line.strip()[4:]
+                    self.nodes[curr_node_name] = {
+                        'parameters': {},
+                        'subscribers': {},
+                        'publishers': {},
+                        'services': {},
+                        'actions': {}
+                    }
                     continue
 
                 if parse_params:
+                    param_name = None
                     if line.startswith("- **"):
-                        name = line.split("**`")[1].split("`**")[0]
-                        if name:
+                        param_name = line.split("**`")[1].split("`**")[0]
+                        if param_name:
+                            self.nodes[curr_node_name]["parameters"][param_name] = {
+                                'type': "",
+                                'description': "",
+                            }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            if "type" not in params:
-                                params[name] = {"type": data_type}
-                    elif line.startswith("    "):
-                        params[name]["desc"] = line.strip()
-                        name = None
-                    continue
+                            self.nodes[curr_node_name]["parameters"][param_name]["type"] = data_type
+                    elif line.startswith("    ") and param_name:
+                            self.nodes[curr_node_name]["parameters"][param_name]["description"] = line.strip()
 
                 elif parse_subs:
+                    sub_name = None
                     if line.startswith("- **"):
-                        name = line.split("**`")[1].split("`**")[0]
-                        if name:
+                        sub_name = line.split("**`")[1].split("`**")[0]
+                        if sub_name:
+                            self.nodes[curr_node_name]["subscribers"][sub_name] = {
+                                'type': "",
+                                'description': "",
+                            }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            if "type" not in subs:
-                                subs[name] = {"type": data_type}
-                    elif line.startswith("    "):
-                        subs[name]["desc"] = line.strip()
-                        name = None
+                            self.nodes[curr_node_name]["subscribers"][sub_name]["type"] = data_type
+                    elif line.startswith("    ") and sub_name:
+                        self.nodes[curr_node_name]["subscribers"][sub_name]["description"] = line.strip()
                     continue
 
                 elif parse_pubs:
+                    pub_name = None
                     if line.startswith("- **"):
-                        name = line.split("**`")[1].split("`**")[0]
-                        if name:
+                        pub_name = line.split("**`")[1].split("`**")[0]
+                        if pub_name:
+                            self.nodes[curr_node_name]["publishers"][pub_name] = {
+                                'type': "",
+                                'description': "",
+                            }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            if "type" not in pubs:
-                                pubs[name] = {"type": data_type}
-                    elif line.startswith("    "):
-                        pubs[name]["desc"] = line.strip()
-                        name = None
+                            self.nodes[curr_node_name]["publishers"][pub_name]["type"] = data_type
+                    elif line.startswith("    ") and pub_name:
+                        self.nodes[curr_node_name]["publishers"][pub_name]["description"] = line.strip()
                     continue
 
                 elif parse_srvs:
+                    srvs_name = None
                     if line.startswith("- **"):
-                        name = line.split("**`")[1].split("`**")[0]
-                        if name:
+                        srvs_name = line.split("**`")[1].split("`**")[0]
+                        if srvs_name:
+                            self.nodes[curr_node_name]["services"][srvs_name] = {
+                                'type': "",
+                                'description': "",
+                            }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            if "type" not in srvs:
-                                srvs[name] = {"type": data_type}
-                    elif line.startswith("    "):
-                        srvs[name]["desc"] = line.strip()
-                        name = None
+                            self.nodes[curr_node_name]["services"][srvs_name]["type"] = data_type
+                    elif line.startswith("    ") and srvs_name:
+                        self.nodes[curr_node_name]["services"][srvs_name]["description"] = line.strip()
                     continue
 
                 elif parse_actions:
+                    action_name = None
                     if line.startswith("- **"):
-                        name = line.split("**`")[1].split("`**")[0]
-                        if name:
+                        action_name = line.split("**`")[1].split("`**")[0]
+                        if action_name:
+                            self.nodes[curr_node_name]["actions"][action_name] = {
+                                'type': "",
+                                'description': "",
+                            }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            if "type" not in actions:
-                                actions[name] = {"type": data_type}
-                    elif line.startswith("    "):
-                        actions[name]["desc"] = line.strip()
-                        name = None
-
-            # EOF was reached
-            self.nodes[node_ctr - 1].parameters = self._dict_to_list(params)
-            self.nodes[node_ctr - 1].publishers = self._dict_to_list(pubs)
-            self.nodes[node_ctr - 1].subscribers = self._dict_to_list(subs)
-            self.nodes[node_ctr - 1].services = self._dict_to_list(srvs)
-            self.nodes[node_ctr - 1].actions = self._dict_to_list(actions)
+                            self.nodes[curr_node_name]["actions"][action_name]["type"] = data_type
+                    elif line.startswith("    ") and action_name:
+                        self.nodes[curr_node_name]["actions"][action_name]["description"] = line.strip()
 
     def get_nodes(self):
         return self.nodes
-
-    def get_node_names(self):
-        node_names = []
-        for node in self.nodes:
-            node_names.append(node.name)
-        return node_names
-
-    def get_node(self, name):
-        for node in self.nodes:
-            if node.name == name:
-                return node
-        return False
-
-    def _dict_to_list(self, dictionary):
-        output_list = []
-        for key in dictionary:
-            output_list.append(
-                {
-                    "name": f"{key}",
-                    "type": dictionary[key]["type"],
-                    "description": dictionary[key]["desc"],
-                }
-            )
-        return output_list

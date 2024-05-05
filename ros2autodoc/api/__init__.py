@@ -11,6 +11,8 @@ from ros2autodoc.api.doc_parser import DocParser
 from ros2autodoc.api.doc_writer import DocWriter
 from ros2autodoc.api.node_interface_collector import NodeInterfaceCollector
 
+TODO = "TODO: description"
+
 
 def check_for_package(package_name):
     """Check if the given package is available."""
@@ -64,8 +66,35 @@ def update_documentation(node, node_name, file_path):
     if not doc_interface:
         print(f"Node '{node_name}' was not found in the documentation.")
         return
+
     # Get the current node interface
     interface_collector = NodeInterfaceCollector(node, node_name)
     node_interface = interface_collector.get_interfaces()
-    for key, val in node_interface.items():
-        print(key, val)
+
+    # Check if parameter names are the same
+    if sorted(doc_interface["parameters"].keys()) == sorted(
+        node_interface["parameters"].keys()
+    ):
+        for doc_param, node_param in zip(
+            sorted(doc_interface["parameters"].keys()),
+            sorted(node_interface["parameters"].keys()),
+        ):
+            # Check if the types are different
+            if (
+                doc_interface["parameters"][doc_param]["type"]
+                != node_interface["parameters"][node_param]["type"]
+            ):
+                node_interface["parameters"][node_param]["type"] = doc_interface[
+                    "parameters"
+                ][doc_param]["type"]
+            if (
+                doc_interface["parameters"][doc_param]["description"]
+                != node_interface["parameters"][node_param]["description"]
+                and doc_interface["parameters"][doc_param]["description"] != TODO
+            ):
+                node_interface["parameters"][node_param]["description"] = doc_interface[
+                    "parameters"
+                ][doc_param]["description"]
+    # If parameters are not the same
+    else:
+        pass

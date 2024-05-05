@@ -1,6 +1,5 @@
 # ROS2 node API
 from ros2node.api import (
-    INFO_NONUNIQUE_WARNING_TEMPLATE,
     get_action_server_info,
     get_publisher_info,
     get_service_server_info,
@@ -39,9 +38,12 @@ class NodeInterfaceCollector:
         self.interfaces = {}
 
     def get_interfaces(self, node, node_name):
-        """ Get the interfaces for the given node."""
+        """Get the interfaces for the given node."""
         self._query_interfaces(self, node, node_name)
         return self.interfaces
+
+    def clear_interfaces(self):
+        self.interfaces.clear()
 
     def _query_interfaces(self, node, node_name):
         # Parameters
@@ -53,7 +55,7 @@ class NodeInterfaceCollector:
                     param_description = desciption_map[param]
                     if not param_description:
                         param_description = TODO
-                    self.interfaces['parameters'][param] = {
+                    self.interfaces["parameters"][param] = {
                         "type": param_type,
                         "description": param_description,
                     }
@@ -64,7 +66,7 @@ class NodeInterfaceCollector:
         if len(subscribers > 0):
             for sub in subscribers:
                 if sub.name not in SUBSCRIBERS_TO_IGNORE:
-                    self.interfaces['subscribers'][sub.name] = {
+                    self.interfaces["subscribers"][sub.name] = {
                         "type": ", ".join(sub.types),
                         "description": TODO,
                     }
@@ -75,7 +77,7 @@ class NodeInterfaceCollector:
         if len(publishers > 0):
             for pub in publishers:
                 if pub.name not in PUBLISHERS_TO_IGNORE:
-                    self.interfaces['publishers'][pub.name] = {
+                    self.interfaces["publishers"][pub.name] = {
                         "type": ", ".join(pub.types),
                         "description": TODO,
                     }
@@ -85,8 +87,8 @@ class NodeInterfaceCollector:
         )
         if len(service_servers > 0):
             for srv in service_servers:
-                if not self._ignore_service(srv.name):
-                    self.interfaces['services'][srv.name] = {
+                if not self._ignore_service(node_name, srv.name):
+                    self.interfaces["services"][srv.name] = {
                         "type": ", ".join(srv.types),
                         "description": TODO,
                     }
@@ -96,7 +98,7 @@ class NodeInterfaceCollector:
         )
         if len(actions_servers > 0):
             for action in actions_servers:
-                self.interfaces['services'][action.name] = {
+                self.interfaces["actions"][action.name] = {
                     "type": ", ".join(action.types),
                     "description": TODO,
                 }
@@ -110,9 +112,11 @@ class NodeInterfaceCollector:
             node=node, node_name=node_name, parameter_names=sorted_names
         )
         for descriptor in resp.descriptors:
-            name_to_type_map[descriptor.name] = get_parameter_type_string(descriptor.type)
+            name_to_type_map[descriptor.name] = get_parameter_type_string(
+                descriptor.type
+            )
             name_to_description_map[descriptor.name] = descriptor.description
         return sorted_names, name_to_type_map, name_to_description_map
-    
-    def _ignore_service(self, srv_name):
+
+    def _ignore_service(self, node_name, srv_name):
         return any(srv_name == "/" + node_name + srv for srv in SERVICES_TO_IGNORE)

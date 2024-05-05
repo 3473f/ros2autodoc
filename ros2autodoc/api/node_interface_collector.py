@@ -30,25 +30,30 @@ SERVICES_TO_IGNORE = [
     "/set_parameters",
     "/set_parameters_atomically",
 ]
-TODO = "TODO: description\n\n"
+TODO = "TODO: description"
 
 
 class NodeInterfaceCollector:
-    def __init__(self):
-        self.interfaces = {}
+    def __init__(self, node, node_name):
+        self.node = node
+        self.node_name = node_name
+        self.interfaces = {
+            "parameters": {},
+            "subscribers": {},
+            "publishers": {},
+            "services": {},
+            "actions": {},
+        }
 
-    def get_interfaces(self, node, node_name):
+    def get_interfaces(self):
         """Get the interfaces for the given node."""
-        self._query_interfaces(self, node, node_name)
+        self._query_interfaces()
         return self.interfaces
 
-    def clear_interfaces(self):
-        self.interfaces.clear()
-
-    def _query_interfaces(self, node, node_name):
+    def _query_interfaces(self):
         # Parameters
-        param_names, params_map, desciption_map = self._get_parameters(node, node_name)
-        if len(param_names > 0):
+        param_names, params_map, desciption_map = self._get_parameters()
+        if len(param_names) > 0:
             for param in param_names:
                 if param not in PARAMS_TO_IGNORE:
                     param_type = params_map[param]
@@ -61,9 +66,9 @@ class NodeInterfaceCollector:
                     }
         # Subscribers
         subscribers = get_subscriber_info(
-            node=node, remote_node_name=node_name, include_hidden=False
+            node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(subscribers > 0):
+        if len(subscribers) > 0:
             for sub in subscribers:
                 if sub.name not in SUBSCRIBERS_TO_IGNORE:
                     self.interfaces["subscribers"][sub.name] = {
@@ -72,9 +77,9 @@ class NodeInterfaceCollector:
                     }
         # Publishers
         publishers = get_publisher_info(
-            node=node, remote_node_name=node_name, include_hidden=False
+            node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(publishers > 0):
+        if len(publishers) > 0:
             for pub in publishers:
                 if pub.name not in PUBLISHERS_TO_IGNORE:
                     self.interfaces["publishers"][pub.name] = {
@@ -83,33 +88,33 @@ class NodeInterfaceCollector:
                     }
         # Services
         service_servers = get_service_server_info(
-            node=node, remote_node_name=node_name, include_hidden=False
+            node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(service_servers > 0):
+        if len(service_servers) > 0:
             for srv in service_servers:
-                if not self._ignore_service(node_name, srv.name):
+                if not self._ignore_service(self.node_name, srv.name):
                     self.interfaces["services"][srv.name] = {
                         "type": ", ".join(srv.types),
                         "description": TODO,
                     }
         # Actions
         actions_servers = get_action_server_info(
-            node=node, remote_node_name=node_name, include_hidden=False
+            node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(actions_servers > 0):
+        if len(actions_servers) > 0:
             for action in actions_servers:
                 self.interfaces["actions"][action.name] = {
                     "type": ", ".join(action.types),
                     "description": TODO,
                 }
 
-    def _get_parameters(self, node, node_name):
+    def _get_parameters(self):
         name_to_type_map = {}
         name_to_description_map = {}
-        parameter_names = call_list_parameters(node=node, node_name=node_name)
+        parameter_names = call_list_parameters(node=self.node, node_name=self.node_name)
         sorted_names = sorted(parameter_names)
         resp = call_describe_parameters(
-            node=node, node_name=node_name, parameter_names=sorted_names
+            node=self.node, node_name=self.node_name, parameter_names=sorted_names
         )
         for descriptor in resp.descriptors:
             name_to_type_map[descriptor.name] = get_parameter_type_string(

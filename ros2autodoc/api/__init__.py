@@ -57,8 +57,15 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
 
 def update_documentation(node, node_name, file_path):
     """Update the documentation for the given node."""
+    # Parse the document
     parser = DocParser(file_path)
     parser.parse()
-    nodes = parser.get_nodes()
-    for key, val in nodes.items():
+    doc_interface = parser.get_node_interface(node_name)
+    if not doc_interface:
+        print(f"Node '{node_name}' was not found in the documentation.")
+        return
+    # Get the current node interface
+    interface_collector = NodeInterfaceCollector(node, node_name)
+    node_interface = interface_collector.get_interfaces()
+    for key, val in node_interface.items():
         print(key, val)

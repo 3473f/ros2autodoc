@@ -31,4 +31,4 @@ class UpdateVerb(VerbExtension):
                 if not check_for_node(node, f"/{node_name}"):
                     print(f"Node '{node_name}' is not running and will be ignored.")
                     continue
-                update_documentation(node, args.input_file)
+                update_documentation(node, node_name, args.input_file)

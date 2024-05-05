@@ -13,7 +13,7 @@ class DocParser:
         if not os.path.exists(self.path):
             print("File not found.")
             return
-        
+
         with open(self.path) as file:
             start_parsing = False
             parse_params = False
@@ -78,11 +78,11 @@ class DocParser:
                     # Create new node
                     curr_node_name = line.strip()[4:]
                     self.nodes[curr_node_name] = {
-                        'parameters': {},
-                        'subscribers': {},
-                        'publishers': {},
-                        'services': {},
-                        'actions': {}
+                        "parameters": {},
+                        "subscribers": {},
+                        "publishers": {},
+                        "services": {},
+                        "actions": {},
                     }
                     continue
 
@@ -91,17 +91,21 @@ class DocParser:
                         param_name = line.split("**`")[1].split("`**")[0]
                         if param_name:
                             self.nodes[curr_node_name]["parameters"][param_name] = {
-                                'type': "",
-                                'description': "",
+                                "type": "",
+                                "description": "",
                             }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            self.nodes[curr_node_name]["parameters"][param_name]["type"] = data_type
+                            self.nodes[curr_node_name]["parameters"][param_name][
+                                "type"
+                            ] = data_type
                     elif line.startswith("    ") and line.strip():
-                        self.nodes[curr_node_name]["parameters"][param_name]["description"] = line.strip()
+                        self.nodes[curr_node_name]["parameters"][param_name][
+                            "description"
+                        ] = line.strip()
                     continue
 
                 elif parse_subs:
@@ -109,17 +113,21 @@ class DocParser:
                         sub_name = line.split("**`")[1].split("`**")[0]
                         if sub_name:
                             self.nodes[curr_node_name]["subscribers"][sub_name] = {
-                                'type': "",
-                                'description': "",
+                                "type": "",
+                                "description": "",
                             }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            self.nodes[curr_node_name]["subscribers"][sub_name]["type"] = data_type
+                            self.nodes[curr_node_name]["subscribers"][sub_name][
+                                "type"
+                            ] = data_type
                     elif line.startswith("    ") and sub_name:
-                        self.nodes[curr_node_name]["subscribers"][sub_name]["description"] = line.strip()
+                        self.nodes[curr_node_name]["subscribers"][sub_name][
+                            "description"
+                        ] = line.strip()
                     continue
 
                 elif parse_pubs:
@@ -127,17 +135,21 @@ class DocParser:
                         pub_name = line.split("**`")[1].split("`**")[0]
                         if pub_name:
                             self.nodes[curr_node_name]["publishers"][pub_name] = {
-                                'type': "",
-                                'description': "",
+                                "type": "",
+                                "description": "",
                             }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            self.nodes[curr_node_name]["publishers"][pub_name]["type"] = data_type
+                            self.nodes[curr_node_name]["publishers"][pub_name][
+                                "type"
+                            ] = data_type
                     elif line.startswith("    ") and pub_name:
-                        self.nodes[curr_node_name]["publishers"][pub_name]["description"] = line.strip()
+                        self.nodes[curr_node_name]["publishers"][pub_name][
+                            "description"
+                        ] = line.strip()
                     continue
 
                 elif parse_srvs:
@@ -145,17 +157,21 @@ class DocParser:
                         srvs_name = line.split("**`")[1].split("`**")[0]
                         if srvs_name:
                             self.nodes[curr_node_name]["services"][srvs_name] = {
-                                'type': "",
-                                'description': "",
+                                "type": "",
+                                "description": "",
                             }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            self.nodes[curr_node_name]["services"][srvs_name]["type"] = data_type
+                            self.nodes[curr_node_name]["services"][srvs_name][
+                                "type"
+                            ] = data_type
                     elif line.startswith("    ") and srvs_name:
-                        self.nodes[curr_node_name]["services"][srvs_name]["description"] = line.strip()
+                        self.nodes[curr_node_name]["services"][srvs_name][
+                            "description"
+                        ] = line.strip()
                     continue
 
                 elif parse_actions:
@@ -163,17 +179,26 @@ class DocParser:
                         action_name = line.split("**`")[1].split("`**")[0]
                         if action_name:
                             self.nodes[curr_node_name]["actions"][action_name] = {
-                                'type': "",
-                                'description': "",
+                                "type": "",
+                                "description": "",
                             }
                             match = re.search(r"\((.*?)\)", line)
                             if match:
                                 data_type = match.group(1)
                             else:
                                 data_type = ""
-                            self.nodes[curr_node_name]["actions"][action_name]["type"] = data_type
+                            self.nodes[curr_node_name]["actions"][action_name][
+                                "type"
+                            ] = data_type
                     elif line.startswith("    ") and action_name:
-                        self.nodes[curr_node_name]["actions"][action_name]["description"] = line.strip()
+                        self.nodes[curr_node_name]["actions"][action_name][
+                            "description"
+                        ] = line.strip()
 
     def get_nodes(self):
         return self.nodes
+
+    def get_node_interface(self, node_name):
+        if node_name in self.nodes:
+            return self.nodes[node_name]
+        return None

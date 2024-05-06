@@ -18,7 +18,7 @@ repos:
     args:
     - --write-changes
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.39.0
+  rev: v0.40.0
   hooks:
   - id: markdownlint
     name: Fixing markdown linting errors
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.4.2
+  rev: v0.4.3
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

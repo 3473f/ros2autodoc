@@ -6,9 +6,10 @@ from ros2cli.verb import VerbExtension
 
 from ros2autodoc.api import check_for_node, check_node_documentation
 
+
 class CheckVerb(VerbExtension):
     """Check if a ROS2 node API is documented."""
-    
+
     def add_arguments(self, parser, cli_name):
         parser.add_argument(
             "nodes",
@@ -16,7 +17,7 @@ class CheckVerb(VerbExtension):
             nargs="*",
             help="name of the nodes to be checked.",
         )
-        
+
         parser.add_argument(
             "input_file",
             help="absolute path of the documentation of the nodes.",

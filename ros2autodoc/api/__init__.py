@@ -7,8 +7,11 @@ from ros2node.api import INFO_NONUNIQUE_WARNING_TEMPLATE, get_node_names
 # ROS2 pkg API
 from ros2pkg.api import get_executable_paths, get_package_names
 
+from ros2autodoc.api.doc_parser import DocParser
 from ros2autodoc.api.doc_writer import DocWriter
 from ros2autodoc.api.node_interface_collector import NodeInterfaceCollector
+
+TODO = "TODO: description"
 
 
 def check_for_package(package_name):
@@ -52,3 +55,46 @@ def document_node(node, package_name, node_name, path, file_name="/README.md"):
     node_interface = interface_collector.get_interfaces()
     writer = DocWriter(package_name, node_name, node_interface)
     writer.write(path + file_name)
+
+
+def update_documentation(node, node_name, file_path):
+    """Update the documentation for the given node."""
+    # Parse the document
+    parser = DocParser(file_path)
+    parser.parse()
+    doc_interface = parser.get_node_interface(node_name)
+    if not doc_interface:
+        print(f"Node '{node_name}' was not found in the documentation.")
+        return
+
+    # Get the current node interface
+    interface_collector = NodeInterfaceCollector(node, node_name)
+    node_interface = interface_collector.get_interfaces()
+
+    # Check if parameter names are the same
+    if sorted(doc_interface["parameters"].keys()) == sorted(
+        node_interface["parameters"].keys()
+    ):
+        for doc_param, node_param in zip(
+            sorted(doc_interface["parameters"].keys()),
+            sorted(node_interface["parameters"].keys()),
+        ):
+            # Check if the types are different
+            if (
+                doc_interface["parameters"][doc_param]["type"]
+                != node_interface["parameters"][node_param]["type"]
+            ):
+                node_interface["parameters"][node_param]["type"] = doc_interface[
+                    "parameters"
+                ][doc_param]["type"]
+            if (
+                doc_interface["parameters"][doc_param]["description"]
+                != node_interface["parameters"][node_param]["description"]
+                and doc_interface["parameters"][doc_param]["description"] != TODO
+            ):
+                node_interface["parameters"][node_param]["description"] = doc_interface[
+                    "parameters"
+                ][doc_param]["description"]
+    # If parameters are not the same
+    else:
+        pass

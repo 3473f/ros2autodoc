@@ -32,6 +32,7 @@ setup(
         ],
         "ros2autodoc.verb": [
             "generate =  ros2autodoc.verb.generate:GenerateVerb",
+            "check = ros2autodoc.verb.check:CheckVerb",
         ],
     },
 )

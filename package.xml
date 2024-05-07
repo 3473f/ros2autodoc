@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>ros2autodoc</name>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <description>
     The ROS2 autodoc project provides a CLI command to automatically generate ROS-Wiki-style documentation template nodes in markdown syntax.
   </description>

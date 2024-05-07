@@ -4,7 +4,7 @@ PACKAGE_NAME = "ros2autodoc"
 
 setup(
     name=PACKAGE_NAME,
-    version="1.0.0",
+    version="1.2.0",
     packages=find_packages(exclude=["test"]),
     data_files=[
         ("share/" + PACKAGE_NAME, ["package.xml"]),
@@ -32,6 +32,7 @@ setup(
         ],
         "ros2autodoc.verb": [
             "generate =  ros2autodoc.verb.generate:GenerateVerb",
+            "check = ros2autodoc.verb.check:CheckVerb",
         ],
     },
 )

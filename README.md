@@ -35,6 +35,8 @@ source install/setup.bash
 
 ## Usage
 
+### Generate
+
 ```shell
 $ ros2 autodoc generate --help
 
@@ -55,7 +57,7 @@ options:
 
 ```
 
-## Example
+### Example
 
 We are going to demonstrate the usage of this package using the turtlesim package included in ROS2.
 
@@ -78,3 +80,40 @@ ros2 autodoc generate turtlesim draw_square --package-name turtlesim
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.
+
+### Check
+
+```shell
+$ ros2 autodoc check --help
+
+usage: ros2 autodoc check [-h] [node ...] input_file
+
+Check if a ROS2 node API is documented
+
+positional arguments:
+  node        name of the nodes to be checked.
+  input_file  absolute path of the documentation of the nodes.
+
+options:
+  -h, --help  show this help message and exit
+```
+
+### Example
+
+First, run the turtlesim node:
+
+```shell
+ros2 run turtlesim turtlesim_node
+```
+
+Check if the node interfaces are listed properly in the file:
+
+```shell
+ros2 autodoc check turtlesim path/to/ros2autodoc/src/example/README.md
+```
+
+This should output the following and exit
+
+```shell
+Node 'turtlesim' interfaces are correctly listed.
+```

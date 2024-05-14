@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.4.3
+  rev: v0.4.4
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

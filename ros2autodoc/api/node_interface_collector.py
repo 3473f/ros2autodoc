@@ -19,6 +19,10 @@ PARAMS_TO_IGNORE = [
     "qos_overrides./parameter_events.publisher.durability",
     "qos_overrides./parameter_events.publisher.history",
     "qos_overrides./parameter_events.publisher.reliability",
+    "qos_overrides./tf.publisher.depth",
+    "qos_overrides./tf.publisher.durability",
+    "qos_overrides./tf.publisher.history",
+    "qos_overrides./tf.publisher.reliability",
 ]
 SUBSCRIBERS_TO_IGNORE = ["/parameter_events"]
 PUBLISHERS_TO_IGNORE = ["/parameter_events", "/rosout"]

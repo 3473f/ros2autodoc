@@ -109,9 +109,7 @@ class NodeInterfaceCollector:
         for param in param_names:
             if param not in PARAMS_TO_IGNORE:
                 param_type = params_map[param]
-                param_description = desciption_map[param]
-                if not param_description:
-                    param_description = TODO
+                param_description = desciption_map.get(param, TODO)
                 self.interfaces["parameters"][param] = {
                     "type": param_type,
                     "description": param_description,

@@ -41,9 +41,9 @@ class GenerateVerb(VerbExtension):
     def main(self, *, args):
         if args.package_name and not check_for_package(args.package_name):
             return f"Package '{args.package_name}' could not be found."
-        
+
         # Ensure no trailing slash
-        args.output_dir = args.output_dir.rstrip('/')
+        args.output_dir = args.output_dir.rstrip("/")
 
         with NodeStrategy(args) as node:
             for node_name in args.nodes:

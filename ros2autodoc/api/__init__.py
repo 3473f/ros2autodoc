@@ -47,12 +47,12 @@ def get_nodes(package_name):
     return nodes
 
 
-def document_node(node, package_name, node_name, path, file_name="/README.md"):
+def document_node(node, package_name, node_name, file_path):
     """Document the given node."""
     interface_collector = NodeInterfaceCollector(node, node_name)
     node_interface = interface_collector.get_interfaces()
     writer = DocWriter(package_name, node_name, node_interface)
-    writer.write(path + file_name)
+    writer.write(file_path)
 
 
 def check_node_documentation(node, node_name, file_path):

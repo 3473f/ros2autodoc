@@ -32,7 +32,9 @@ class NodeRunner:
         if os.name == "nt" and path.endswith(".py"):
             cmd.insert(0, sys.executable)
 
-        self.process = subprocess.Popen(cmd, shell=False)
+        self.process = subprocess.Popen(
+            cmd, shell=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
 
     def stop(self):
         self.process.send_signal(signal.SIGINT)

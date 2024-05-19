@@ -1,7 +1,8 @@
-from os.path import abspath, curdir
+from os.path import abspath, basename, curdir
 
 from ros2cli.node.strategy import NodeStrategy
 from ros2cli.verb import VerbExtension
+from ros2pkg.api import get_executable_paths
 
 from ros2autodoc.api import check_for_node, check_for_package, document_node
 from ros2autodoc.api.node_runner import NodeRunner
@@ -14,22 +15,19 @@ class GenerateVerb(VerbExtension):
         parser.add_argument(
             "package_name",
             metavar="package_name",
-            help="name of the package to be documented. If not specified, "
-            "the package documentation will be left out.",
+            help="name of the package containing the nodes to be documented.",
         )
         parser.add_argument(
             "--nodes",
             metavar="node",
             nargs="*",
-            help="name of the nodes to be documented. If not specified, "
-            "all running nodes from the package will be documented.",
+            help="name of the nodes to be documented.",
         )
         parser.add_argument(
             "--executables",
             metavar="executables",
             nargs="*",
-            help="name of the executables to be documented. If not specified, "
-            "all executables from the package will be documented.",
+            help="name of the executables for the nodes to be documented.",
         )
         parser.add_argument(
             "--output-dir",
@@ -46,23 +44,36 @@ class GenerateVerb(VerbExtension):
             "be generated.",
         )
 
-    def run_executable(self, runner, package_name, executable_name):
-        runner.run(package_name, executable_name)
-
     def main(self, *, args):
+        # Check if package is available
         if args.package_name and not check_for_package(args.package_name):
             return f"Package '{args.package_name}' could not be found."
 
+        # Check if all inputs were provided
+        if not args.nodes or not args.executables:
+            return "At least one node and one executable are required."
+
+        # Check if the number of nodes matches the executables
         if len(args.nodes) != len(args.executables):
             return_str = (
-                f"Number of nodes ({len(args.nodes)})"
+                f"Number of nodes ({len(args.nodes)}) "
                 + f"does not match the number of executables ({len(args.executables)})."
             )
             return return_str
 
+        # Check if the package contains all the executables
+        paths = get_executable_paths(package_name=args.package_name)
+        executables = [basename(path) for path in paths]
+        missing_executables = [
+            exe for exe in args.executables if exe not in executables
+        ]
+        if missing_executables:
+            return f"Missing executables: {', '.join(missing_executables)}"
+
         # Ensure no trailing slash
         args.output_dir = args.output_dir.rstrip("/")
 
+        # Create runner to start the nodes
         runner = NodeRunner()
 
         with NodeStrategy(args) as node:

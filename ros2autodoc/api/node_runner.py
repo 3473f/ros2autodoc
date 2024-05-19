@@ -6,8 +6,6 @@ import sys
 from ros2pkg.api import PackageNotFound
 from ros2run.api import MultipleExecutables, get_executable_path
 
-ROS2RUN_MSG_PREFIX = "[ros2run]:"
-
 
 class NodeRunner:
     def __init__(self):

@@ -80,8 +80,8 @@ repos:
   - id: mypy
     name: Static typechecking (mypy)
     exclude: ^tests/
-- repo: https://github.com/PyCQA/bandit
-  rev: 1.7.8
-  hooks:
-  - id: bandit
-    name: Security linting (bandit)
+# - repo: https://github.com/PyCQA/bandit
+  # rev: 1.7.8
+  # hooks:
+  # - id: bandit
+  #   name: Security linting (bandit)

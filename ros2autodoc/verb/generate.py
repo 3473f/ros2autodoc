@@ -1,4 +1,3 @@
-from multiprocessing import Process
 from os.path import abspath, curdir
 
 from ros2cli.node.strategy import NodeStrategy
@@ -68,11 +67,8 @@ class GenerateVerb(VerbExtension):
 
         with NodeStrategy(args) as node:
             for node_name, executable_name in zip(args.nodes, args.executables):
-                run_process = Process(
-                    target=self.run_executable,
-                    args=(runner, args.package_name, executable_name),
-                )
-                run_process.start()
+
+                runner.start(args.package_name, executable_name)
 
                 if not check_for_node(node, f"/{node_name}"):
                     print(f"Node '{node_name}' is not running and will be ignored.")
@@ -88,4 +84,4 @@ class GenerateVerb(VerbExtension):
                         node_name,
                         f"{args.output_dir}/README.md",
                     )
-                run_process.kill()  # this is not enough
+                runner.stop()

@@ -1,12 +1,19 @@
+import os
+import signal
+import subprocess
+import sys
+
 from ros2pkg.api import PackageNotFound
-from ros2run.api import MultipleExecutables, get_executable_path, run_executable
+from ros2run.api import MultipleExecutables, get_executable_path
+
+ROS2RUN_MSG_PREFIX = "[ros2run]:"
 
 
 class NodeRunner:
     def __init__(self):
-        pass
+        self.process = None
 
-    def run(self, package_name, executable_name):
+    def start(self, package_name, executable_name):
         try:
             path = get_executable_path(
                 package_name=package_name, executable_name=executable_name
@@ -20,4 +27,14 @@ class NodeRunner:
             raise RuntimeError(msg)
         if path is None:
             return "No executable found"
-        return run_executable(path=path, argv=[])
+
+        cmd = [path]
+
+        # on Windows Python scripts are invocable through the interpreter
+        if os.name == "nt" and path.endswith(".py"):
+            cmd.insert(0, sys.executable)
+
+        self.process = subprocess.Popen(cmd, shell=False)
+
+    def stop(self):
+        self.process.send_signal(signal.SIGINT)

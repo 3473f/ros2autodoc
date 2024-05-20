@@ -23,7 +23,7 @@ sudo apt install python3-colcon-common-extensions
 ```shell
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
-git clone https://github.com/3473f/ros2autodoc ./src
+git clone https://github.com/3473f/ros2autodoc src/ros2autodoc
 ```
 
 4. Build the workspace:

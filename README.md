@@ -62,7 +62,7 @@ options:
 We are going to demonstrate the usage of this package using the turtlesim package included in ROS2.
 
 ```shell
-ros2 autodoc generate turtlesim --nodes turtlesim draw_square --executables turtlesim_node drawsquare
+ros2 autodoc generate turtlesim --nodes turtlesim draw_square --executables turtlesim_node draw_square
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.

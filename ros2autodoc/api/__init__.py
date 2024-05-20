@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 # ROS2 node API
 from ros2node.api import INFO_NONUNIQUE_WARNING_TEMPLATE, get_node_names
@@ -19,20 +20,25 @@ def check_for_package(package_name):
     return True
 
 
-def check_for_node(node, node_name):
+def check_for_node(node, node_name, timeout=1.0):
     """Check if the given node is available and running."""
-    running_nodes = get_node_names(node=node, include_hidden_nodes=True)
-    count = [n.full_name for n in running_nodes].count(node_name)
-    if count > 1:
-        print(
-            INFO_NONUNIQUE_WARNING_TEMPLATE.format(
-                num_nodes=count, node_name=node_name
-            ),
-            file=sys.stderr,
-        )
-        return False
-    if count > 0:
-        return True
+    start_time = time.time()
+    end_time = start_time + timeout
+
+    while time.time() < end_time:
+        running_nodes = get_node_names(node=node, include_hidden_nodes=True)
+        count = [n.full_name for n in running_nodes].count(node_name)
+
+        if count > 1:
+            print(
+                INFO_NONUNIQUE_WARNING_TEMPLATE.format(
+                    num_nodes=count, node_name=node_name
+                ),
+                file=sys.stderr,
+            )
+            return True
+        elif count > 0:
+            return True
 
     print(f"Unable to find node '{node_name}'.")
     return False

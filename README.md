@@ -23,7 +23,7 @@ sudo apt install python3-colcon-common-extensions
 ```shell
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
-git clone https://github.com/3473f/ros2autodoc ./src
+git clone https://github.com/3473f/ros2autodoc src/ros2autodoc
 ```
 
 4. Build the workspace:
@@ -40,20 +40,20 @@ source install/setup.bash
 ```shell
 $ ros2 autodoc generate --help
 
-usage: ros2 autodoc generate [-h] [--package-name] [--output-dir] [--seperate-files] [node ...]
+usage: ros2 autodoc generate [-h] [--nodes [node ...]] [--executables [executables ...]] [--output-dir] [--seperate-files] package_name
 
 Automatically generate documentation for a ROS2 node
 
 positional arguments:
-  node              name of the nodes to be documented. If not specified, all running nodes from the package will be documented.
+  package_name          name of the package containing the nodes to be documented.
 
 options:
-  -h, --help        show this help message and exit
-  --package-name    name of the package to be documented. If not specified, the package documentation will be left out.
-  --output-dir      the directory where documentation should be written. If not specified, the file will be saved to the current
-                    directory.
-  --seperate-files  when this option is set, the node documentation will be written to separate files and no package documentation will
-                    be generated.
+  -h, --help            show this help message and exit
+  --nodes [node ...]    name of the nodes to be documented.
+  --executables [executables ...]
+                        name of the executables for the nodes to be documented.
+  --output-dir          the directory where documentation should be written. If not specified, the file will be saved to the current directory.
+  --seperate-files      when this option is set, the node documentation will be written to separate files and no package documentation will be generated
 
 ```
 
@@ -61,22 +61,8 @@ options:
 
 We are going to demonstrate the usage of this package using the turtlesim package included in ROS2.
 
-First, run the turtlesim node:
-
 ```shell
-ros2 run turtlesim turtlesim_node
-```
-
-Next, run the draw_square node in another terminal:
-
-```shell
-ros2 run turtlesim draw_square
-```
-
-Finally, generate the documentation for these two nodes by running this command in a new terminal:
-
-```shell
-ros2 autodoc generate turtlesim draw_square --package-name turtlesim
+ros2 autodoc generate turtlesim --nodes turtlesim draw_square --executables turtlesim_node drawsquare
 ```
 
 This should output the following [README.md](https://github.com/3473f/ros2autodoc/blob/main/example/README.md) file to your current working directory.
@@ -86,30 +72,27 @@ This should output the following [README.md](https://github.com/3473f/ros2autodo
 ```shell
 $ ros2 autodoc check --help
 
-usage: ros2 autodoc check [-h] [node ...] input_file
+usage: ros2 autodoc check [-h] [--nodes [node ...]] [--executables [executables ...]] package_name input_file
 
 Check if a ROS2 node API is documented
 
 positional arguments:
-  node        name of the nodes to be checked.
-  input_file  absolute path of the documentation of the nodes.
+  package_name          name of the package containing the nodes to be documented.
+  input_file            absolute path of the documentation of the nodes.
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  --nodes [node ...]    name of the nodes to be documented.
+  --executables [executables ...]
+                        name of the executables for the nodes to be documented.
 ```
 
 ### Example
 
-First, run the turtlesim node:
-
-```shell
-ros2 run turtlesim turtlesim_node
-```
-
 Check if the node interfaces are listed properly in the file:
 
 ```shell
-ros2 autodoc check turtlesim path/to/ros2autodoc/src/example/README.md
+ros2 autodoc check turtlesim path/to/ros2autodoc/src/example/README.md --nodes turtlesim --executables turtlesim_node
 ```
 
 This should output the following and exit

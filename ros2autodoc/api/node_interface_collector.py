@@ -105,13 +105,11 @@ class NodeInterfaceCollector:
                     "description": TODO,
                 }
 
-    def _add_parameter_info(self, param_names, params_map, desciption_map):
+    def _add_parameter_info(self, param_names, params_map, description_map):
         for param in param_names:
             if param not in PARAMS_TO_IGNORE:
                 param_type = params_map[param]
-                param_description = desciption_map[param]
-                if not param_description:
-                    param_description = TODO
+                param_description = description_map[param] or TODO
                 self.interfaces["parameters"][param] = {
                     "type": param_type,
                     "description": param_description,

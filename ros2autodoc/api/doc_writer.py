@@ -44,6 +44,7 @@ class DocWriter:
                 for name, entry in self.interfaces["services"].items():
                     self._write_entry(f, name, entry)
             if self.interfaces["actions"]:
+                f.write("### Actions\n\n")
                 for name, entry in self.interfaces["actions"].items():
                     self._write_entry(f, name, entry)
 

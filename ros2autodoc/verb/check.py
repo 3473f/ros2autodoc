@@ -19,6 +19,12 @@ class CheckVerb(VerbExtension):
             help="name of the package containing the nodes to be documented.",
         )
         parser.add_argument(
+            "--launch-file",
+            default=None,
+            metavar="launch_file",
+            help="name of the launch file to start the nodes.",
+        )
+        parser.add_argument(
             "--nodes",
             metavar="node",
             nargs="*",
@@ -46,36 +52,46 @@ class CheckVerb(VerbExtension):
             return f"Package '{args.package_name}' could not be found."
 
         # Check if all inputs were provided
-        if not args.nodes or not args.executables:
-            return "At least one node and one executable are required."
+        if not args.nodes and (not args.executables or not args.launch_file):
+            return "At least one node and one executable or launch file are required."
 
-        # Check if the number of nodes matches the executables
-        if len(args.nodes) != len(args.executables):
-            return_str = (
-                f"Number of nodes ({len(args.nodes)}) "
-                + f"does not match the number of executables ({len(args.executables)})."
-            )
-            return return_str
+        if args.executables:
+            # Check if the number of nodes matches the executables
+            if len(args.nodes) != len(args.executables):
+                return "Number of nodes doesn't match the number of executables."
 
-        # Check if the package contains all the executables
-        paths = get_executable_paths(package_name=args.package_name)
-        executables = [basename(path) for path in paths]
-        missing_executables = [
-            exe for exe in args.executables if exe not in executables
-        ]
-        if missing_executables:
-            return f"Missing executables: {', '.join(missing_executables)}"
+            # Check if the package contains all the executables
+            paths = get_executable_paths(package_name=args.package_name)
+            executables = [basename(path) for path in paths]
+            missing_executables = [
+                exe for exe in args.executables if exe not in executables
+            ]
+            if missing_executables:
+                return f"Missing executables: {', '.join(missing_executables)}"
 
         # Create runner to start the nodes
         runner = NodeRunner()
 
         with NodeStrategy(args) as node:
-            for node_name, executable_name in zip(args.nodes, args.executables):
-                runner.start(args.package_name, executable_name)
-                if not check_for_node(node, f"/{node_name}"):
-                    print(f"Node '{node_name}' is not running and will be ignored.")
-                    continue
-                if not check_node_documentation(node, node_name, args.input_file):
-                    sys.exit(1)
-                print(f"Node '{node_name}' interfaces are correctly listed.")
+            if args.launch_file:
+                runner.start(args.package_name, launch_file=args.launch_file)
+
+                for node_name in args.nodes:
+                    if not check_for_node(node, f"/{node_name}"):
+                        print(f"Node '{node_name}' is not running and will be ignored.")
+                        continue
+                    if not check_node_documentation(node, node_name, args.input_file):
+                        sys.exit(1)
+                    print(f"Node '{node_name}' interfaces are correctly listed.")
                 runner.stop()
+
+            elif args.executables:
+                for node_name, executable_name in zip(args.nodes, args.executables):
+                    runner.start(args.package_name, executable_name)
+                    if not check_for_node(node, f"/{node_name}"):
+                        print(f"Node '{node_name}' is not running and will be ignored.")
+                        continue
+                    if not check_node_documentation(node, node_name, args.input_file):
+                        sys.exit(1)
+                    print(f"Node '{node_name}' interfaces are correctly listed.")
+                    runner.stop()

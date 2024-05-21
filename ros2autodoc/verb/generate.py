@@ -103,9 +103,9 @@ class GenerateVerb(VerbExtension):
                             node_name,
                             f"{args.output_dir}/README.md",
                         )
-                       
+
                 runner.stop()
-            
+
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
 

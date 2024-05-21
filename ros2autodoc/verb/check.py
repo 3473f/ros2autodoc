@@ -88,7 +88,7 @@ class CheckVerb(VerbExtension):
                         sys.exit(1)
                     print(f"Node '{node_name}' interfaces are correctly listed.")
                 runner.stop()
-            
+
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
                     runner.start(args.package_name, executable_name)

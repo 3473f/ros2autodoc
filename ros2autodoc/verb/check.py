@@ -58,11 +58,7 @@ class CheckVerb(VerbExtension):
         if args.executables:
             # Check if the number of nodes matches the executables
             if len(args.nodes) != len(args.executables):
-                return_str = (
-                    f"Number of nodes ({len(args.nodes)}) "
-                    + f"does not match the number of executables ({len(args.executables)})."
-                )
-                return return_str
+                return "Number of nodes doesn't match the number of executables."
 
             # Check if the package contains all the executables
             paths = get_executable_paths(package_name=args.package_name)
@@ -88,7 +84,7 @@ class CheckVerb(VerbExtension):
                         sys.exit(1)
                     print(f"Node '{node_name}' interfaces are correctly listed.")
                 runner.stop()
-            
+
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
                     runner.start(args.package_name, executable_name)

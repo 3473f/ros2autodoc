@@ -62,11 +62,7 @@ class GenerateVerb(VerbExtension):
         if args.executables:
             # Check if the number of nodes matches the executables
             if len(args.nodes) != len(args.executables):
-                return_str = (
-                    f"Number of nodes ({len(args.nodes)}) "
-                    + f"does not match the number of executables ({len(args.executables)})."
-                )
-                return return_str
+                return "Number of nodes doesn't match the number of executables."
 
             # Check if the package contains all the executables
             paths = get_executable_paths(package_name=args.package_name)
@@ -103,9 +99,9 @@ class GenerateVerb(VerbExtension):
                             node_name,
                             f"{args.output_dir}/README.md",
                         )
-                       
+
                 runner.stop()
-            
+
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
 

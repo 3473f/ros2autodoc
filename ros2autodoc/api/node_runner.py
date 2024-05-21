@@ -33,7 +33,7 @@ class NodeRunner:
             # on Windows Python scripts are invocable through the interpreter
             if os.name == "nt" and path.endswith(".py"):
                 cmd.insert(0, sys.executable)
-        
+
         elif launch_file:
             cmd = ["ros2", "launch", package_name, launch_file]
 

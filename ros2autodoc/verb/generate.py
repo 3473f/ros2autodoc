@@ -56,7 +56,7 @@ class GenerateVerb(VerbExtension):
             return f"Package '{args.package_name}' could not be found."
 
         # Check if all inputs were provided
-        if not args.nodes or not args.executables or not args.launch_file:
+        if not args.nodes and (not args.executables or not args.launch_file):
             return "At least one node and one executable or launch file are required."
 
         if args.executables:

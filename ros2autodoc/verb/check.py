@@ -81,6 +81,7 @@ class CheckVerb(VerbExtension):
                         print(f"Node '{node_name}' is not running and will be ignored.")
                         continue
                     if not check_node_documentation(node, node_name, args.input_file):
+                        runner.stop()
                         sys.exit(1)
                     print(f"Node '{node_name}' interfaces are correctly listed.")
                 runner.stop()
@@ -90,8 +91,10 @@ class CheckVerb(VerbExtension):
                     runner.start(args.package_name, executable_name)
                     if not check_for_node(node, f"/{node_name}"):
                         print(f"Node '{node_name}' is not running and will be ignored.")
+                        runner.stop()
                         continue
                     if not check_node_documentation(node, node_name, args.input_file):
+                        runner.stop()
                         sys.exit(1)
                     print(f"Node '{node_name}' interfaces are correctly listed.")
                     runner.stop()

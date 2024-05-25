@@ -20,7 +20,7 @@ def check_for_package(package_name):
     return True
 
 
-def check_for_node(node, node_name, timeout=1.0):
+def check_for_node(node, node_name, timeout=10.0):
     """Check if the given node is available and running."""
     start_time = time.time()
     end_time = start_time + timeout

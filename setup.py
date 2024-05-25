@@ -4,7 +4,7 @@ PACKAGE_NAME = "ros2autodoc"
 
 setup(
     name=PACKAGE_NAME,
-    version="2.1.1",
+    version="2.1.2",
     packages=find_packages(exclude=["test"]),
     data_files=[
         ("share/" + PACKAGE_NAME, ["package.xml"]),

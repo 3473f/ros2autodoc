@@ -17,6 +17,8 @@ jobs:
           os: ubuntu-22.04
         - ros2-version: iron
           os: ubuntu-22.04
+        - ros2-version: jazzy
+          os: ubuntu-24.04
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4

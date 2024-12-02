@@ -18,7 +18,7 @@ repos:
     args:
     - --write-changes
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.42.0
+  rev: v0.43.0
   hooks:
   - id: markdownlint
     name: Fixing markdown linting errors
@@ -34,7 +34,7 @@ repos:
   - id: black
     name: Python formatting (black)
 - repo: https://github.com/PyCQA/docformatter
-  rev: 06907d0
+  rev: v1.7.5
   hooks:
   - id: docformatter
     name: Python docstring formatting (docformatter)
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.7.3
+  rev: v0.8.1
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

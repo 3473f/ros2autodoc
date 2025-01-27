@@ -11,14 +11,14 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.3.0
+  rev: v2.4.0
   hooks:
   - id: codespell
     name: Fixing common spelling mistakes
     args:
     - --write-changes
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.43.0
+  rev: v0.44.0
   hooks:
   - id: markdownlint
     name: Fixing markdown linting errors
@@ -62,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.9.2
+  rev: v0.9.3
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

@@ -1,6 +1,6 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v5.0.0
   hooks:
   - id: check-ast
   - id: check-case-conflict
@@ -11,7 +11,7 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.4.1
+  rev: v2.4.0
   hooks:
   - id: codespell
     name: Fixing common spelling mistakes
@@ -29,20 +29,17 @@ repos:
   - id: absolufy-imports
     name: Make python imports absolute
 - repo: https://github.com/psf/black
-  rev: 25.1.0
+  rev: 24.10.0
   hooks:
   - id: black
     name: Python formatting (black)
-- repo: https://github.com/PyCQA/docformatter
-  rev: v1.7.5
-  hooks:
-  - id: docformatter
-    name: Python docstring formatting (docformatter)
-    args: [-i]
-    language: python
-    types: [python]
+# - repo: https://github.com/PyCQA/docformatter
+#   rev: v1.7.5
+#   hooks:
+#   - id: docformatter
+#     name: Python docstring formatting (docformatter)
 - repo: https://github.com/pycqa/isort
-  rev: 6.0.0
+  rev: 5.13.2
   hooks:
   - id: isort
     name: Sorting python imports
@@ -65,7 +62,7 @@ repos:
     - flake8-simplify
     - pep8-naming
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.9.4
+  rev: v0.9.3
   hooks:
   - id: ruff
     name: Linting Python code (ruff)

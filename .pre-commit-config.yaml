@@ -33,15 +33,15 @@ repos:
   hooks:
   - id: black
     name: Python formatting (black)
-- repo: https://github.com/PyCQA/docformatter
-  rev: v1.7.5
-  hooks:
-  - id: docformatter
-    name: Python docstring formatting (docformatter)
-    entry: docformatter
-    args: [-i]
-    language: python
-    types: [python]
+# - repo: https://github.com/PyCQA/docformatter
+#   rev: v1.7.5
+#   hooks:
+#   - id: docformatter
+#     name: Python docstring formatting (docformatter)
+#     entry: docformatter
+#     args: [-i]
+#     language: python
+#     types: [python]
 - repo: https://github.com/pycqa/isort
   rev: 5.13.2
   hooks:

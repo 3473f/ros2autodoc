@@ -19,6 +19,10 @@ PARAMS_TO_IGNORE = [
     "qos_overrides./parameter_events.publisher.durability",
     "qos_overrides./parameter_events.publisher.history",
     "qos_overrides./parameter_events.publisher.reliability",
+    "qos_overrides./tf.publisher.depth",
+    "qos_overrides./tf.publisher.durability",
+    "qos_overrides./tf.publisher.history",
+    "qos_overrides./tf.publisher.reliability",
 ]
 SUBSCRIBERS_TO_IGNORE = ["/parameter_events"]
 PUBLISHERS_TO_IGNORE = ["/parameter_events", "/rosout"]
@@ -53,59 +57,62 @@ class NodeInterfaceCollector:
     def _query_interfaces(self):
         # Parameters
         param_names, params_map, desciption_map = self._get_parameters()
-        if len(param_names) > 0:
-            for param in param_names:
-                if param not in PARAMS_TO_IGNORE:
-                    param_type = params_map[param]
-                    param_description = desciption_map[param]
-                    if not param_description:
-                        param_description = TODO
-                    self.interfaces["parameters"][param] = {
-                        "type": param_type,
-                        "description": param_description,
-                    }
+        if param_names:
+            self._add_parameter_info(param_names, params_map, desciption_map)
+
         # Subscribers
         subscribers = get_subscriber_info(
             node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(subscribers) > 0:
-            for sub in subscribers:
-                if sub.name not in SUBSCRIBERS_TO_IGNORE:
-                    self.interfaces["subscribers"][sub.name] = {
-                        "type": ", ".join(sub.types),
-                        "description": TODO,
-                    }
+        if subscribers:
+            self._add_interface_info(
+                self.interfaces["subscribers"], subscribers, SUBSCRIBERS_TO_IGNORE
+            )
+
         # Publishers
         publishers = get_publisher_info(
             node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(publishers) > 0:
-            for pub in publishers:
-                if pub.name not in PUBLISHERS_TO_IGNORE:
-                    self.interfaces["publishers"][pub.name] = {
-                        "type": ", ".join(pub.types),
-                        "description": TODO,
-                    }
+        if publishers:
+            self._add_interface_info(
+                self.interfaces["publishers"], publishers, PUBLISHERS_TO_IGNORE
+            )
+
         # Services
         service_servers = get_service_server_info(
             node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(service_servers) > 0:
-            for srv in service_servers:
-                if not self._ignore_service(self.node_name, srv.name):
-                    self.interfaces["services"][srv.name] = {
-                        "type": ", ".join(srv.types),
-                        "description": TODO,
-                    }
+        if service_servers:
+            filtered_services = [
+                srv
+                for srv in service_servers
+                if not self._ignore_service(self.node_name, srv.name)
+            ]
+            self._add_interface_info(self.interfaces["services"], filtered_services, [])
+
         # Actions
         actions_servers = get_action_server_info(
             node=self.node, remote_node_name=self.node_name, include_hidden=False
         )
-        if len(actions_servers) > 0:
-            for action in actions_servers:
-                self.interfaces["actions"][action.name] = {
-                    "type": ", ".join(action.types),
+        if actions_servers:
+            self._add_interface_info(self.interfaces["actions"], actions_servers, [])
+
+    def _add_interface_info(self, interface_dict, items, ignore_list):
+        for item in items:
+            if item.name not in ignore_list:
+                interface_dict[item.name] = {
+                    "type": ", ".join(item.types),
                     "description": TODO,
+                }
+
+    def _add_parameter_info(self, param_names, params_map, description_map):
+        for param in param_names:
+            if param not in PARAMS_TO_IGNORE:
+                param_type = params_map[param]
+                param_description = description_map[param] or TODO
+                self.interfaces["parameters"][param] = {
+                    "type": param_type,
+                    "description": param_description,
                 }
 
     def _get_parameters(self):

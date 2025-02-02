@@ -6,19 +6,11 @@
 
 ## Overview
 
-The `ros2autodoc` package provides a ROS2 command line interface tool to automatically generate documentation for ROS2 nodes.
-The tool outputs an initial documentation file detailing the interface (parameters, publishers, subscribers, services and actions) for a running ROS2 node. The package was tested with ROS2 Foxy, Humble and Iron.
+The `ros2autodoc` package extends the ROS 2 CLI tools to generate API documentation for ROS2 nodes, update previously generated documentation or check if a node is documented for use in CI/CD jobs. The tool outputs a markdown file in the style of ROS Wiki.
 
 ## Installation
 
-1. Install a recent ROS2 version.
-2. Make sure that `colcon` is installed:
-
-```shell
-sudo apt install python3-colcon-common-extensions
-```
-
-3. Clone this repo into your workspace:
+1. Clone this repo into your workspace:
 
 ```shell
 mkdir -p ~/ros2_ws/src
@@ -26,7 +18,7 @@ cd ~/ros2_ws
 git clone https://github.com/3473f/ros2autodoc src/ros2autodoc
 ```
 
-4. Build the workspace:
+2. Build the workspace:
 
 ```shell
 colcon build
@@ -40,7 +32,9 @@ source install/setup.bash
 ```shell
 $ ros2 autodoc generate --help
 
-usage: ros2 autodoc generate [-h] [--nodes [node ...]] [--executables [executables ...]] [--output-dir] [--seperate-files] package_name
+usage: ros2 autodoc generate [-h] [--nodes [node ...]] [--executables [executables ...]] [--launch-file launch_file]
+                             [--output-dir] [--seperate-files]
+                             package_name
 
 Automatically generate documentation for a ROS2 node
 
@@ -52,8 +46,12 @@ options:
   --nodes [node ...]    name of the nodes to be documented.
   --executables [executables ...]
                         name of the executables for the nodes to be documented.
-  --output-dir          the directory where documentation should be written. If not specified, the file will be saved to the current directory.
-  --seperate-files      when this option is set, the node documentation will be written to separate files and no package documentation will be generated
+  --launch-file launch_file
+                        name of the launch file to start the nodes.
+  --output-dir          the directory where documentation should be written. If not specified, the file will be saved
+                        to the current directory.
+  --seperate-files      when this option is set, the node documentation will be written to separate files and no
+                        package documentation will be generated.
 
 ```
 
@@ -72,7 +70,7 @@ This should output the following [README.md](https://github.com/3473f/ros2autodo
 ```shell
 $ ros2 autodoc check --help
 
-usage: ros2 autodoc check [-h] [--nodes [node ...]] [--executables [executables ...]] package_name input_file
+usage: ros2 autodoc check [-h] [--launch-file launch_file] [--nodes [node ...]] [--executables [executables ...]] package_name input_file
 
 Check if a ROS2 node API is documented
 
@@ -82,6 +80,8 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
+  --launch-file launch_file
+                        name of the launch file to start the nodes.
   --nodes [node ...]    name of the nodes to be documented.
   --executables [executables ...]
                         name of the executables for the nodes to be documented.
@@ -99,4 +99,19 @@ This should output the following and exit
 
 ```shell
 Node 'turtlesim' interfaces are correctly listed.
+```
+
+### Update
+
+```shell
+usage: ros2 autodoc update [-h] [node ...] input_file
+
+Update the documentation of a ROS2 node
+
+positional arguments:
+  node        name of the nodes to be documented. If not specified, all running nodes from the package will be documented.
+  input_file  absolute path of the README.md file to be updated.
+
+options:
+  -h, --help  show this help message and exit
 ```

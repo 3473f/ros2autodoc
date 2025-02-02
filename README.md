@@ -18,7 +18,7 @@ cd ~/ros2_ws
 git clone https://github.com/3473f/ros2autodoc src/ros2autodoc
 ```
 
-4. Build the workspace:
+2. Build the workspace:
 
 ```shell
 colcon build

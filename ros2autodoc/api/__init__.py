@@ -146,7 +146,31 @@ def update_documentation(node, node_name, file_path):
             print(f"Adding missing action: {node_action}")
             doc_interface["actions"][node_action] = node_interface["actions"][node_action]
     
-    # Update the document
+    # Now that we added all missing elements,
+    # check if there are any elements in the doc that are not in the node
+    for doc_param in doc_interface["parameters"].copy():
+        if doc_param not in node_interface["parameters"]:
+            print(f"Removing parameter: {doc_param}")
+            del doc_interface["parameters"][doc_param]
+    for doc_sub in doc_interface["subscribers"].copy():
+        if doc_sub not in node_interface["subscribers"]:
+            print(f"Removing subscriber: {doc_sub}")
+            del doc_interface["subscribers"][doc_sub]
+    for doc_pub in doc_interface["publishers"].copy():
+        if doc_pub not in node_interface["publishers"]:
+            print(f"Removing publisher: {doc_pub}")
+            del doc_interface["publishers"][doc_pub]
+    for doc_srv in doc_interface["services"].copy():
+        if doc_srv not in node_interface["services"]:
+            print(f"Removing service: {doc_srv}")
+            del doc_interface["services"][doc_srv]
+    for doc_action in doc_interface["actions"].copy():
+        if doc_action not in node_interface["actions"]:
+            print(f"Removing action: {doc_action}")
+            del doc_interface["actions"][doc_action]
+    
+    # Write to the document
+    # TODO: remove the old documentation and write a new one
     writer = DocWriter(None, node_name, doc_interface)
     writer.write(file_path)
 

@@ -115,3 +115,7 @@ positional arguments:
 options:
   -h, --help  show this help message and exit
 ```
+
+### TODO
+
+- [ ] Replace the old documentation when using the update verb

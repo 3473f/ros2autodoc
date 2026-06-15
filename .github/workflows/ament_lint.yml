@@ -17,7 +17,7 @@ jobs:
     container:
       image: ubuntu:22.04
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: ros-tooling/setup-ros@v0.7
       with:
         required-ros-distributions: humble  # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>

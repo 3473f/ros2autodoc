@@ -21,7 +21,7 @@ jobs:
           os: ubuntu-24.04
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: ros-tooling/setup-ros@v0.7
       with:
         required-ros-distributions: ${{ matrix.ros2-version }}

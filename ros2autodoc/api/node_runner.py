@@ -43,3 +43,8 @@ class NodeRunner:
 
     def stop(self):
         self.process.send_signal(signal.SIGINT)
+        try:
+            self.process.wait(timeout=5.0)
+        except subprocess.TimeoutExpired:
+            self.process.kill()
+            self.process.wait()

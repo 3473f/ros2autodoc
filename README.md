@@ -104,18 +104,27 @@ Node 'turtlesim' interfaces are correctly listed.
 ### Update
 
 ```shell
-usage: ros2 autodoc update [-h] [node ...] input_file
+$ ros2 autodoc update --help
+
+usage: ros2 autodoc update [-h] [--launch-file launch_file] [--nodes [node ...]] [--executables [executables ...]] package_name input_file
 
 Update the documentation of a ROS2 node
 
 positional arguments:
-  node        name of the nodes to be documented. If not specified, all running nodes from the package will be documented.
-  input_file  absolute path of the README.md file to be updated.
+  package_name          name of the package containing the nodes to be documented.
+  input_file            absolute path of the README.md file to be updated.
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  --launch-file launch_file
+                        name of the launch file to start the nodes.
+  --nodes [node ...]    name of the nodes to be documented.
+  --executables [executables ...]
+                        name of the executables for the nodes to be documented.
 ```
 
-### TODO
+### Example
 
-- [ ] Replace the old documentation when using the update verb
+```shell
+ros2 autodoc update turtlesim path/to/ros2autodoc/src/example/README.md --nodes turtlesim --executables turtlesim_node
+```

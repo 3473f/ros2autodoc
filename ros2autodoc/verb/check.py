@@ -69,32 +69,26 @@ class CheckVerb(VerbExtension):
             if missing_executables:
                 return f"Missing executables: {', '.join(missing_executables)}"
 
-        # Create runner to start the nodes
-        runner = NodeRunner()
-
         with NodeStrategy(args) as node:
             if args.launch_file:
-                runner.start(args.package_name, launch_file=args.launch_file)
+                with NodeRunner() as runner:
+                    runner.start(args.package_name, launch_file=args.launch_file)
 
-                for node_name in args.nodes:
-                    if not check_for_node(node, f"/{node_name}"):
-                        print(f"Node '{node_name}' is not running and will be ignored.")
-                        continue
-                    if not check_node_documentation(node, node_name, args.input_file):
-                        runner.stop()
-                        sys.exit(1)
-                    print(f"Node '{node_name}' interfaces are correctly listed.")
-                runner.stop()
+                    for node_name in args.nodes:
+                        if not check_for_node(node, f"/{node_name}"):
+                            print(f"Node '{node_name}' is not running and will be ignored.")
+                            continue
+                        if not check_node_documentation(node, node_name, args.input_file):
+                            sys.exit(1)
+                        print(f"Node '{node_name}' interfaces are correctly listed.")
 
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
-                    runner.start(args.package_name, executable_name)
-                    if not check_for_node(node, f"/{node_name}"):
-                        print(f"Node '{node_name}' is not running and will be ignored.")
-                        runner.stop()
-                        continue
-                    if not check_node_documentation(node, node_name, args.input_file):
-                        runner.stop()
-                        sys.exit(1)
-                    print(f"Node '{node_name}' interfaces are correctly listed.")
-                    runner.stop()
+                    with NodeRunner() as runner:
+                        runner.start(args.package_name, executable_name)
+                        if not check_for_node(node, f"/{node_name}"):
+                            print(f"Node '{node_name}' is not running and will be ignored.")
+                            continue
+                        if not check_node_documentation(node, node_name, args.input_file):
+                            sys.exit(1)
+                        print(f"Node '{node_name}' interfaces are correctly listed.")

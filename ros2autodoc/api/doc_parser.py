@@ -1,6 +1,16 @@
 import os
 import re
 
+_TYPE_RE = re.compile(r"\((.*?)\)")
+
+_SECTION_HEADERS = {
+    "### Parameters": "parameters",
+    "### Subscribers": "subscribers",
+    "### Publishers": "publishers",
+    "### Services": "services",
+    "### Actions": "actions",
+}
+
 
 class DocParser:
     def __init__(self, path):
@@ -16,14 +26,14 @@ class DocParser:
 
         with open(self.path) as file:
             start_parsing = False
-            parse_params = False
-            parse_subs = False
-            parse_pubs = False
-            parse_srvs = False
-            parse_actions = False
+            current_section = None
+            curr_node_name = None
+            curr_item_name = None
 
             for line in file:
-                if line.strip().startswith("## Nodes"):
+                stripped = line.strip()
+
+                if stripped.startswith("## Nodes"):
                     self.text_to_keep.append(line)
                     start_parsing = True
                     continue
@@ -32,51 +42,15 @@ class DocParser:
                     self.text_to_keep.append(line)
                     continue
 
-                if line.strip().startswith("### Parameters"):
-                    parse_params = True
-                    parse_subs = False
-                    parse_pubs = False
-                    parse_srvs = False
-                    parse_actions = False
+                if stripped in _SECTION_HEADERS:
+                    current_section = _SECTION_HEADERS[stripped]
+                    curr_item_name = None
                     continue
-                elif line.strip().startswith("### Subscribers"):
-                    parse_params = False
-                    parse_subs = True
-                    parse_pubs = False
-                    parse_srvs = False
-                    parse_actions = False
-                    continue
-                elif line.strip().startswith("### Publishers"):
-                    parse_params = False
-                    parse_subs = False
-                    parse_pubs = True
-                    parse_srvs = False
-                    parse_actions = False
-                    continue
-                elif line.strip().startswith("### Services"):
-                    parse_params = False
-                    parse_subs = False
-                    parse_pubs = False
-                    parse_srvs = True
-                    parse_actions = False
-                    continue
-                elif line.strip().startswith("### Actions"):
-                    parse_params = False
-                    parse_subs = False
-                    parse_pubs = False
-                    parse_srvs = False
-                    parse_actions = True
-                    continue
-                elif line.strip().startswith("### "):
-                    # Rest flags
-                    parse_params = False
-                    parse_subs = False
-                    parse_pubs = False
-                    parse_srvs = False
-                    parse_actions = False
 
-                    # Create new node
-                    curr_node_name = line.strip()[4:]
+                if stripped.startswith("### "):
+                    current_section = None
+                    curr_item_name = None
+                    curr_node_name = stripped[4:]
                     self.nodes[curr_node_name] = {
                         "parameters": {},
                         "subscribers": {},
@@ -86,114 +60,23 @@ class DocParser:
                     }
                     continue
 
-                if parse_params:
-                    if line.startswith("- **"):
-                        param_name = line.split("**`")[1].split("`**")[0]
-                        if param_name:
-                            self.nodes[curr_node_name]["parameters"][param_name] = {
-                                "type": "",
-                                "description": "",
-                            }
-                            match = re.search(r"\((.*?)\)", line)
-                            if match:
-                                data_type = match.group(1)
-                            else:
-                                data_type = ""
-                            self.nodes[curr_node_name]["parameters"][param_name][
-                                "type"
-                            ] = data_type
-                    elif line.startswith("    ") and line.strip():
-                        self.nodes[curr_node_name]["parameters"][param_name][
-                            "description"
-                        ] = line.strip()
+                if current_section is None:
                     continue
 
-                elif parse_subs:
-                    if line.startswith("- **"):
-                        sub_name = line.split("**`")[1].split("`**")[0]
-                        if sub_name:
-                            self.nodes[curr_node_name]["subscribers"][sub_name] = {
-                                "type": "",
-                                "description": "",
-                            }
-                            match = re.search(r"\((.*?)\)", line)
-                            if match:
-                                data_type = match.group(1)
-                            else:
-                                data_type = ""
-                            self.nodes[curr_node_name]["subscribers"][sub_name][
-                                "type"
-                            ] = data_type
-                    elif line.startswith("    ") and sub_name:
-                        self.nodes[curr_node_name]["subscribers"][sub_name][
-                            "description"
-                        ] = line.strip()
-                    continue
-
-                elif parse_pubs:
-                    if line.startswith("- **"):
-                        pub_name = line.split("**`")[1].split("`**")[0]
-                        if pub_name:
-                            self.nodes[curr_node_name]["publishers"][pub_name] = {
-                                "type": "",
-                                "description": "",
-                            }
-                            match = re.search(r"\((.*?)\)", line)
-                            if match:
-                                data_type = match.group(1)
-                            else:
-                                data_type = ""
-                            self.nodes[curr_node_name]["publishers"][pub_name][
-                                "type"
-                            ] = data_type
-                    elif line.startswith("    ") and pub_name:
-                        self.nodes[curr_node_name]["publishers"][pub_name][
-                            "description"
-                        ] = line.strip()
-                    continue
-
-                elif parse_srvs:
-                    if line.startswith("- **"):
-                        srvs_name = line.split("**`")[1].split("`**")[0]
-                        if srvs_name:
-                            self.nodes[curr_node_name]["services"][srvs_name] = {
-                                "type": "",
-                                "description": "",
-                            }
-                            match = re.search(r"\((.*?)\)", line)
-                            if match:
-                                data_type = match.group(1)
-                            else:
-                                data_type = ""
-                            self.nodes[curr_node_name]["services"][srvs_name][
-                                "type"
-                            ] = data_type
-                    elif line.startswith("    ") and srvs_name:
-                        self.nodes[curr_node_name]["services"][srvs_name][
-                            "description"
-                        ] = line.strip()
-                    continue
-
-                elif parse_actions:
-                    if line.startswith("- **"):
-                        action_name = line.split("**`")[1].split("`**")[0]
-                        if action_name:
-                            self.nodes[curr_node_name]["actions"][action_name] = {
-                                "type": "",
-                                "description": "",
-                            }
-                            match = re.search(r"\((.*?)\)", line)
-                            if match:
-                                data_type = match.group(1)
-                            else:
-                                data_type = ""
-                            self.nodes[curr_node_name]["actions"][action_name][
-                                "type"
-                            ] = data_type
-                    elif line.startswith("    ") and action_name:
-                        self.nodes[curr_node_name]["actions"][action_name][
-                            "description"
-                        ] = line.strip()
+                if line.startswith("- **"):
+                    item_name = line.split("**`")[1].split("`**")[0]
+                    if item_name:
+                        curr_item_name = item_name
+                        match = _TYPE_RE.search(line)
+                        data_type = match.group(1) if match else ""
+                        self.nodes[curr_node_name][current_section][item_name] = {
+                            "type": data_type,
+                            "description": "",
+                        }
+                elif line.startswith("    ") and stripped and curr_item_name:
+                    self.nodes[curr_node_name][current_section][curr_item_name][
+                        "description"
+                    ] = stripped
 
     def get_nodes(self):
         return self.nodes

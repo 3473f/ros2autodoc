@@ -73,31 +73,26 @@ class UpdateVerb(VerbExtension):
         parser = DocParser(args.input_file)
         parser.parse()
 
-        # Create runner to start the nodes
-        runner = NodeRunner()
-
         with NodeStrategy(args) as node:
             if args.launch_file:
-                runner.start(args.package_name, launch_file=args.launch_file)
+                with NodeRunner() as runner:
+                    runner.start(args.package_name, launch_file=args.launch_file)
 
-                for node_name in args.nodes:
-                    if not check_for_node(node, f"/{node_name}"):
-                        print(f"Node '{node_name}' is not running and will be ignored.")
-                        continue
-                    self._update_node(parser, node, node_name)
-
-                runner.stop()
+                    for node_name in args.nodes:
+                        if not check_for_node(node, f"/{node_name}"):
+                            print(f"Node '{node_name}' is not running and will be ignored.")
+                            continue
+                        self._update_node(parser, node, node_name)
 
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
-                    runner.start(args.package_name, executable_name=executable_name)
+                    with NodeRunner() as runner:
+                        runner.start(args.package_name, executable_name=executable_name)
 
-                    if not check_for_node(node, f"/{node_name}"):
-                        print(f"Node '{node_name}' is not running and will be ignored.")
-                        runner.stop()
-                        continue
-                    self._update_node(parser, node, node_name)
-                    runner.stop()
+                        if not check_for_node(node, f"/{node_name}"):
+                            print(f"Node '{node_name}' is not running and will be ignored.")
+                            continue
+                        self._update_node(parser, node, node_name)
 
         write_documentation_file(
             args.input_file, args.package_name, parser.text_to_keep, parser.nodes

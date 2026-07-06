@@ -76,49 +76,45 @@ class GenerateVerb(VerbExtension):
         # Ensure no trailing slash
         args.output_dir = args.output_dir.rstrip("/")
 
-        # Create runner to start the nodes
-        runner = NodeRunner()
-
         with NodeStrategy(args) as node:
             if args.launch_file:
-                runner.start(args.package_name, launch_file=args.launch_file)
+                with NodeRunner() as runner:
+                    runner.start(args.package_name, launch_file=args.launch_file)
 
-                for node_name in args.nodes:
+                    for node_name in args.nodes:
 
-                    if not check_for_node(node, f"/{node_name}"):
-                        print(f"Node '{node_name}' is not running and will be ignored.")
-                        continue
-                    if args.seperate_files:
-                        document_node(
-                            node, None, node_name, f"{args.output_dir}/{node_name}.md"
-                        )
-                    else:
-                        document_node(
-                            node,
-                            args.package_name,
-                            node_name,
-                            f"{args.output_dir}/README.md",
-                        )
-
-                runner.stop()
+                        if not check_for_node(node, f"/{node_name}"):
+                            print(f"Node '{node_name}' is not running and will be ignored.")
+                            continue
+                        if args.seperate_files:
+                            document_node(
+                                node, None, node_name, f"{args.output_dir}/{node_name}.md"
+                            )
+                        else:
+                            document_node(
+                                node,
+                                args.package_name,
+                                node_name,
+                                f"{args.output_dir}/README.md",
+                            )
 
             elif args.executables:
                 for node_name, executable_name in zip(args.nodes, args.executables):
 
-                    runner.start(args.package_name, executable_name=executable_name)
+                    with NodeRunner() as runner:
+                        runner.start(args.package_name, executable_name=executable_name)
 
-                    if not check_for_node(node, f"/{node_name}"):
-                        print(f"Node '{node_name}' is not running and will be ignored.")
-                        continue
-                    if args.seperate_files:
-                        document_node(
-                            node, None, node_name, f"{args.output_dir}/{node_name}.md"
-                        )
-                    else:
-                        document_node(
-                            node,
-                            args.package_name,
-                            node_name,
-                            f"{args.output_dir}/README.md",
-                        )
-                    runner.stop()
+                        if not check_for_node(node, f"/{node_name}"):
+                            print(f"Node '{node_name}' is not running and will be ignored.")
+                            continue
+                        if args.seperate_files:
+                            document_node(
+                                node, None, node_name, f"{args.output_dir}/{node_name}.md"
+                            )
+                        else:
+                            document_node(
+                                node,
+                                args.package_name,
+                                node_name,
+                                f"{args.output_dir}/README.md",
+                            )

@@ -11,12 +11,14 @@ jobs:
   colcon-build:
     strategy:
       fail-fast: false
-      matrix: # We will have to keep it up-to-date with <https://docs.ros.org/en/foxy/Releases.html>
+      matrix:
         include:
         - ros2-version: humble
           os: ubuntu-22.04
         - ros2-version: jazzy
           os: ubuntu-24.04
+        - ros2-version: lyrical
+          os: ubuntu-26.04
         - ros2-version: rolling
           os: ubuntu-24.04
     runs-on: ${{ matrix.os }}
